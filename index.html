@@ -1,0 +1,3756 @@
+<!DOCTYPE html>
+<html class="light" dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Cloud Computing</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "#87d3d3", "outline": "#6f7979", "tertiary-fixed": "#bbebeb",
+            "surface-bright": "#f7fafa", "surface-container-low": "#f1f4f4", "on-primary": "#ffffff",
+            "inverse-on-surface": "#eef1f1", "on-surface-variant": "#3f4948", "on-error": "#ffffff",
+            "secondary-container": "#fdd49a", "primary": "#3D8B8B", "tertiary-container": "#4f7c7c",
+            "tertiary-fixed-dim": "#a0cfcf", "tertiary": "#366363", "surface-container-highest": "#e0e3e3",
+            "primary-fixed": "#a3f0ef", "on-primary-fixed": "#002020", "inverse-primary": "#87d3d3",
+            "on-primary-container": "#f3fffe", "background": "#f7fafa", "surface-tint": "#0d6969",
+            "error": "#ba1a1a", "on-background": "#181c1d", "primary-container": "#308080",
+            "on-tertiary-container": "#f3fffe", "surface-variant": "#e0e3e3", "on-secondary": "#ffffff",
+            "secondary": "#77592b", "outline-variant": "#bec9c8", "inverse-surface": "#2d3131",
+            "on-secondary-container": "#785a2b", "secondary-fixed-dim": "#e8c088",
+            "surface-dim": "#d7dbdb", "on-surface": "#181c1d", "on-error-container": "#93000a",
+            "secondary-fixed": "#ffddb0", "surface-container-lowest": "#ffffff", "surface": "#f7fafa",
+            "surface-container": "#ebeeee", "on-tertiary": "#ffffff", "error-container": "#ffdad6",
+            "surface-container-high": "#e6e9e9"
+          },
+          fontFamily: {
+            headline: ["IBM Plex Sans Arabic", "Manrope", "sans-serif"],
+            body: ["IBM Plex Sans Arabic", "Inter", "sans-serif"],
+            label: ["IBM Plex Sans Arabic", "Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24 }
+    
+    body {
+      background-color: #f7fafa;
+      background-image: radial-gradient(at 0% 0%, rgba(61, 139, 139, .03) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(197, 160, 107, .03) 0px, transparent 50%);
+      transition: background-color .4s, color .4s;
+      overflow-x: hidden
+    }
+    
+    .dark body, .dark { background-color: #181c1c; color: #e0e3e3 }
+    .dark body { background-image: radial-gradient(at 0% 0%, rgba(135, 211, 211, .05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(232, 192, 136, .05) 0px, transparent 50%) }
+    
+    .editorial-shadow { box-shadow: 0 10px 30px rgba(7, 103, 103, .04) }
+    .dark .editorial-shadow { box-shadow: 0 10px 30px rgba(0, 0, 0, .3) }
+    .dark .dark\:bg-d { background: #0b0f0f }
+    .dark .dark\:bg-card { background: #1e2222 }
+    .dark .dark\:border-db { border-color: #323636 }
+    .dark .dark\:text-p { color: #87d3d3 }
+    .dark .dark\:text-s { color: #e8c088 }
+    .dark .dark\:text-sv { color: #bfc8c8 }
+    .dark .dark\:bg-sc { background: #282b2b }
+    .dark .dark\:bg-scl { background: #1c2020 }
+    
+    .bg-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden }
+    .bg-shape { position: absolute; border-radius: 50%; opacity: .035 }
+    .dark .bg-shape { opacity: .04 }
+    
+    @keyframes drift1 {
+      0% { transform: translate(0, 0) scale(1) }
+      25% { transform: translate(60px, -40px) scale(1.1) }
+      50% { transform: translate(-30px, 70px) scale(.95) }
+      75% { transform: translate(40px, 30px) scale(1.05) }
+      100% { transform: translate(0, 0) scale(1) }
+    }
+    @keyframes drift2 {
+      0% { transform: translate(0, 0) rotate(0deg) }
+      33% { transform: translate(-50px, 40px) rotate(120deg) }
+      66% { transform: translate(30px, -60px) rotate(240deg) }
+      100% { transform: translate(0, 0) rotate(360deg) }
+    }
+    @keyframes drift3 {
+      0% { transform: translate(0, 0) scale(1) }
+      50% { transform: translate(70px, 50px) scale(1.15) }
+      100% { transform: translate(0, 0) scale(1) }
+    }
+    
+    .bg-s1 { width: 400px; height: 400px; top: 10%; left: -5%; background: #3D8B8B; animation: drift1 25s ease-in-out infinite }
+    .bg-s2 { width: 300px; height: 300px; top: 60%; right: -3%; background: #e8c088; animation: drift2 30s linear infinite }
+    .bg-s3 { width: 250px; height: 250px; top: 30%; left: 50%; background: #87d3d3; animation: drift3 20s ease-in-out infinite; border-radius: 30% }
+    .bg-s4 { width: 180px; height: 180px; bottom: 15%; left: 20%; background: #3D8B8B; animation: drift1 22s ease-in-out infinite reverse }
+    .bg-s5 { width: 220px; height: 220px; top: 5%; right: 25%; background: #e8c088; animation: drift3 28s ease-in-out infinite; border-radius: 40% }
+    
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px) }
+      to { opacity: 1; transform: translateY(0) }
+    }
+    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+    
+    .animate-fade-up { animation: fadeUp .5s ease both }
+    .animate-fade-in { animation: fadeIn .3s ease both }
+    
+    .q-card { transition: all .3s cubic-bezier(.4, 0, .2, 1) }
+    .q-card:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(7, 103, 103, .08) }
+    .dark .q-card:hover { box-shadow: 0 16px 40px rgba(0, 0, 0, .4) }
+    
+    .option-label { transition: all .2s ease }
+    .option-label:hover { transform: translateX(4px); background: rgba(61, 139, 139, .04) }
+    .dark .option-label:hover { background: rgba(135, 211, 211, .06) !important }
+    
+    .correct-answer { border-color: #3D8B8B !important; background: rgba(61, 139, 139, .06) !important }
+    .dark .correct-answer { background: rgba(135, 211, 211, .08) !important; border-color: #87d3d3 !important }
+    .incorrect-answer { border-color: #ba1a1a !important; background: rgba(186, 26, 26, .06) !important }
+    
+    .exp-box { 
+      display: none; 
+      margin-top: 0; 
+      padding: 1.5rem; 
+      background: rgba(197, 160, 107, .08); 
+      border: 1px dashed rgba(197, 160, 107, .4); 
+      border-radius: 1.25rem; 
+      animation: fadeUp .3s ease both;
+      position: relative;
+    }
+    .dark .exp-box { background: rgba(232, 192, 136, .05); border-color: rgba(232, 192, 136, .25) }
+    .exp-visible { display: block !important }
+    
+    .q-image-container {
+      margin: 1rem 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid rgba(61, 139, 139, 0.15);
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    .dark .q-image-container {
+      background: #1e2222;
+      border-color: rgba(135, 211, 211, 0.15);
+    }
+    .q-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      max-height: 300px;
+    }
+    .q-image-caption {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      color: #6f7979;
+      text-align: center;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      background: rgba(61, 139, 139, 0.02);
+    }
+    .dark .q-image-caption {
+      color: #bfc8c8;
+      border-top-color: rgba(255,255,255,0.05);
+      background: rgba(135, 211, 211, 0.03);
+    }
+    
+    .lang-toggle {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      display: inline-flex;
+      background: rgba(255,255,255,0.6);
+      border-radius: 9999px;
+      padding: 0.25rem;
+      gap: 0.25rem;
+      border: 1px solid rgba(197, 160, 107, 0.3);
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+    .dark .lang-toggle {
+      background: rgba(30, 34, 34, 0.8);
+      border-color: rgba(232, 192, 136, 0.2);
+    }
+    .lang-btn {
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      background: transparent;
+      color: #77592b;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
+    .dark .lang-btn { color: #e8c088; }
+    .lang-btn.active {
+      background: #77592b;
+      color: white;
+      box-shadow: 0 2px 8px rgba(119, 89, 43, 0.3);
+    }
+    .dark .lang-btn.active {
+      background: #e8c088;
+      color: #1e2222;
+      box-shadow: 0 2px 8px rgba(232, 192, 136, 0.3);
+    }
+    .lang-btn:hover:not(.active) {
+      background: rgba(197, 160, 107, 0.2);
+    }
+    
+    .exp-text { display: none; animation: fadeIn 0.3s ease; }
+    .exp-text.active { display: block; }
+    
+    .reveal-content { display: none; margin-top: 0.25rem; }
+    
+    .btn-reveal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 0.75rem;
+      transition: all 0.2s ease;
+      margin-top: 0.75rem;
+      cursor: pointer;
+    }
+    .btn-reveal-exp { background: rgba(61, 139, 139, 0.1); color: #3D8B8B; }
+    .dark .btn-reveal-exp { background: rgba(135, 211, 211, 0.1); color: #87d3d3; }
+    .btn-reveal-correct { background: rgba(197, 160, 107, 0.1); color: #77592b; }
+    .dark .btn-reveal-correct { background: rgba(232, 192, 136, 0.1); color: #e8c088; }
+    .btn-reveal:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    
+    /* KaTeX specific styling */
+    .katex { font-size: 1.1em; }
+    .option-label .katex { font-size: 1.05em; }
+    
+    .progress-glow { animation: pulse-glow 2s ease-in-out infinite }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 8px rgba(61, 139, 139, .2) }
+      50% { box-shadow: 0 0 20px rgba(61, 139, 139, .4) }
+    }
+    
+    .btn-press { transition: all .15s ease }
+    .btn-press:active { transform: scale(.96) }
+    
+    .slide-item { transition: all .25s ease }
+    .slide-item:hover { background: rgba(61, 139, 139, .04) }
+    .dark .slide-item:hover { background: rgba(135, 211, 211, .06) }
+    .slide-item.active-slide { background: rgba(61, 139, 139, .08); border-color: #3D8B8B !important }
+    .dark .slide-item.active-slide { background: rgba(135, 211, 211, .1); border-color: #87d3d3 !important }
+    
+    .pdf-viewer { min-height: 70vh; border-radius: 1.5rem; overflow: hidden }
+    .pdf-frame { width: 100%; height: 70vh; border: none }
+    
+    ::-webkit-scrollbar { width: 6px }
+    ::-webkit-scrollbar-track { background: transparent }
+    ::-webkit-scrollbar-thumb { background: #bec9c8; border-radius: 3px }
+    .dark ::-webkit-scrollbar-thumb { background: #3f4948 }
+    
+    .animate-pray { animation: pray-glow 3s ease-in-out infinite }
+    @keyframes pray-glow {
+      0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 0px rgba(61, 139, 139, 0)) }
+      50% { transform: scale(1.08) translateY(-4px); filter: drop-shadow(0 4px 12px rgba(61, 139, 139, .3)) }
+    }
+    .animate-twinkle { animation: twinkle 3s ease-in-out infinite }
+    @keyframes twinkle {
+      0%, 100% { opacity: .6; transform: scale(1) }
+      50% { opacity: 1; transform: scale(1.15) }
+    }
+  </style>
+</head>
+
+<body class="font-body text-on-surface antialiased">
+
+  <div class="bg-shapes">
+    <div class="bg-shape bg-s1"></div>
+    <div class="bg-shape bg-s2"></div>
+    <div class="bg-shape bg-s3"></div>
+    <div class="bg-shape bg-s4"></div>
+    <div class="bg-shape bg-s5"></div>
+  </div>
+
+  <header id="main-header" class="bg-white/80 dark:bg-card backdrop-blur-md sticky top-0 z-50 border-b border-surface-container-highest dark:border-db transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-0 md:h-20 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 relative">
+      <div class="flex items-center justify-between w-full md:w-auto">
+        <span class="text-lg md:text-xl font-bold text-primary dark:text-p font-headline tracking-tight">Cloud Computing • Final</span>
+        <div class="flex items-center gap-2 md:hidden">
+          <button onclick="resetQuiz()" class="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-error rounded-full text-xs font-bold btn-press">
+            <span class="material-symbols-outlined text-sm">restart_alt</span>Reset
+          </button>
+          <button onclick="toggleTheme()" id="themeToggleMobile" class="p-2 text-on-surface-variant dark:text-sv rounded-full btn-press">
+            <span class="material-symbols-outlined text-xl">dark_mode</span>
+          </button>
+        </div>
+      </div>
+      <nav class="flex items-center gap-1 bg-surface-container-low dark:bg-scl p-1 rounded-full w-full md:w-auto md:absolute md:left-1/2 md:-translate-x-1/2">
+        <button onclick="showSection('quiz')" id="nav-quiz" class="nav-tab flex-1 md:flex-none px-4 md:px-6 py-2 bg-white dark:bg-card shadow-sm rounded-full text-primary dark:text-p font-bold text-xs md:text-sm flex justify-center items-center gap-2 btn-press transition-all">
+          <span class="material-symbols-outlined text-base md:text-lg">quiz</span><span>الامتحان</span>
+        </button>
+        <button onclick="showSection('slides')" id="nav-slides" class="nav-tab flex-1 md:flex-none px-4 md:px-6 py-2 rounded-full text-on-surface-variant dark:text-sv hover:text-primary font-medium text-xs md:text-sm flex justify-center items-center gap-2 btn-press transition-all">
+          <span class="material-symbols-outlined text-base md:text-lg">menu_book</span><span>سلايدات المادة</span>
+        </button>
+      </nav>
+      <div class="hidden md:flex items-center gap-3">
+        <button onclick="resetQuiz()" class="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-error hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full text-xs font-bold btn-press transition-all">
+          <span class="material-symbols-outlined text-sm">restart_alt</span>Reset Quiz
+        </button>
+        <div class="w-px h-6 bg-outline-variant/30 mx-1"></div>
+        <button onclick="toggleTheme()" id="themeToggleDesktop" class="p-2.5 text-on-surface-variant dark:text-sv hover:bg-surface-container dark:hover:bg-sc rounded-full btn-press transition-all">
+          <span class="material-symbols-outlined">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="min-h-screen pb-10">
+    <main id="quiz-section" class="w-full max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-10">
+      <section class="mb-8 md:mb-10 animate-fade-up">
+        <div class="flex flex-col items-center text-center gap-6 mb-12">
+          <h1 class="font-headline text-3xl md:text-4xl lg:text-5xl font-black text-on-surface dark:text-white tracking-tighter">Final Cloud Computing</h1>
+          <div class="flex flex-col items-center gap-3 w-full max-w-sm md:max-w-md">
+            <div class="flex items-center justify-between w-full px-1">
+              <span class="font-label text-xs md:text-sm font-bold text-secondary dark:text-s uppercase tracking-widest text-[#3D8B8B]">Progress</span>
+              <span class="font-label text-xs md:text-sm font-bold text-primary dark:text-p">
+                <span id="answered-count">0</span> / <span id="total-count">0</span> <span class="hidden sm:inline">Answered</span>
+              </span>
+            </div>
+            <div class="w-full h-3 bg-surface-container-highest dark:bg-sc rounded-full overflow-hidden shadow-inner p-[2px] border border-outline-variant/10 dark:border-db">
+              <div id="progress-bar" class="h-full w-0 bg-gradient-to-r from-[#3D8B8B] to-[#5DB1B1] rounded-full progress-glow transition-all duration-1000 ease-out"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 p-2 bg-surface-container-low dark:bg-scl rounded-2xl w-full md:w-fit">
+          <button onclick="showAllAnswers()" class="flex-1 md:flex-none px-5 py-2.5 bg-primary dark:bg-primary-fixed-dim text-white dark:text-on-primary-fixed rounded-xl font-label text-sm font-semibold shadow-md hover:opacity-90 btn-press transition-all">Show Answers</button>
+          <button onclick="hideAllAnswers()" class="flex-1 md:flex-none px-5 py-2.5 bg-white dark:bg-card text-on-surface-variant dark:text-sv border border-outline-variant/10 dark:border-db rounded-xl font-label text-sm font-semibold hover:bg-surface-bright btn-press transition-all">Hide Answers</button>
+        </div>
+      </section>
+      <div id="questions-container" class="space-y-4 md:space-y-6"></div>
+    </main>
+
+    <section id="slides-section" class="w-full max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-10 hidden">
+      <h1 class="font-headline text-2xl md:text-3xl font-extrabold text-on-surface dark:text-white tracking-tight mb-8 animate-fade-up">سلايدات المادة</h1>
+      <div class="space-y-2 mb-8" id="slides-list"></div>
+      <div id="pdf-viewer-wrap" class="hidden animate-fade-up">
+        <div class="pdf-viewer bg-white dark:bg-card editorial-shadow border border-surface-container-high dark:border-db overflow-hidden rounded-[1.5rem] md:rounded-[2rem]">
+          <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between px-6 py-4 bg-primary dark:bg-primary-container text-white gap-4">
+            <span id="pdf-title" class="font-headline font-bold text-lg">Cloud Computing Slides</span>
+            <div class="flex items-center gap-3">
+              <button onclick="downloadCurrentPdf()" class="px-4 py-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-semibold btn-press transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">download</span>Download
+              </button>
+            </div>
+          </div>
+          
+          <!-- Tab Bar -->
+          <div class="flex border-b border-outline-variant/10 dark:border-db bg-surface-container-low dark:bg-scl px-6 py-2 gap-2">
+            <button id="tab-btn-pdf" onclick="switchTab('pdf')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-primary dark:bg-primary text-white shadow-md">
+              <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+              <span>PDF Slide</span>
+            </button>
+            <button id="tab-btn-video" onclick="switchTab('video')" class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-on-surface-variant dark:text-sv hover:bg-surface-container dark:hover:bg-sc">
+              <span class="material-symbols-outlined text-base">play_circle</span>
+              <span>Video Explanation</span>
+            </button>
+          </div>
+          
+          <!-- Tab Contents -->
+          <div class="relative min-h-[500px]">
+            <!-- PDF Viewer Panel -->
+            <div id="panel-pdf" class="w-full h-full">
+              <iframe id="pdf-frame" class="pdf-frame w-full h-[600px] border-none" src=""></iframe>
+            </div>
+            <!-- Video Viewer Panel -->
+            <div id="panel-video" class="w-full h-full p-4 md:p-6 hidden bg-slate-900 dark:bg-d flex flex-col justify-center items-center gap-4">
+              <video id="slide-video" class="w-full max-w-4xl aspect-video rounded-[1.5rem] border border-white/10 shadow-2xl bg-black" controls preload="metadata">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              <div class="text-center text-white/70 text-xs md:text-sm font-body mt-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm text-[#87d3d3]">info</span>
+                <span>مشاهدة الشرح المرئي للمحاضرة | Video Explanation of the Lecture</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="w-full py-12 md:py-16 mt-8">
+      <div class="max-w-3xl mx-auto px-6 text-center">
+        <div class="bg-white/60 dark:bg-card backdrop-blur-xl rounded-[2rem] p-8 md:p-12 editorial-shadow border border-surface-container-high dark:border-db">
+          <div class="mb-5"><span class="material-symbols-outlined text-5xl md:text-6xl text-primary dark:text-primary-fixed-dim animate-pray" style="font-variation-settings:'FILL' 1,'wght' 400">volunteer_activism</span></div>
+          <p class="font-headline text-xl md:text-2xl font-bold text-on-surface dark:text-white leading-relaxed mb-3 animate-fade-up">دعواتكم للمساعد الخفي والعاملين على الموقع</p>
+          <p class="font-headline text-lg md:text-xl font-semibold text-primary dark:text-primary-fixed-dim animate-fade-up" style="animation-delay:.15s">بالتوفيق والسداد والزوجة الصالحة</p>
+          <div class="flex justify-center items-center gap-2 mt-6 opacity-50"><span class="animate-twinkle" style="animation-delay:0s">✦</span><span class="animate-twinkle" style="animation-delay:.4s">✦</span><span class="animate-twinkle" style="animation-delay:.8s">✦</span></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- KaTeX JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <script>
+    const quizData = [
+  {
+    "n": 1,
+    "q": "Cloud Computing: A model for enabling on-demand network access to a shared pool of configurable \ncomputing resources",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 1,
+    "exp": {
+      "en": "This is the official NIST definition of cloud computing. It encompasses five essential characteristics: on-demand self-service, broad network access, resource pooling, rapid elasticity, and measured service.",
+      "ar": "هذا التعريف الرسمي من NIST للكلاود. يعني خمس أشياء أساسية: تقدر تطلب خدمة بنفسك بدون ما تتصل بأحد، الوصول من أي مكان، الموارد تتجمع للجميع، تقدر تكبر أو تصغر الموارد بسرعة، والدفع حسب الاستخدام."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 2,
+    "q": "Horizontal Scale-Out: Adding more resources (like RAM or CPU) to a single computation unit to \nincrease power.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Vertical Scale-Up: Adding more resources (like RAM or CPU) …",
+    "page": 1,
+    "exp": {
+      "en": "This describes Vertical Scale-Up (scaling up), not Horizontal Scale-Out. Horizontal scaling adds more machines to distribute workload, while vertical scaling upgrades a single server's hardware (RAM/CPU).",
+      "ar": "لا، هذا وصف التوسع العمودي (Vertical Scale-Up). التوسع الأفقي يعني تضيف سيرفرات جديدة عشان توزع الحمل بينها، مو أنك تكبر سيرفر واحد بس."
+    },
+    "hasImage": true
+  },
+  {
+    "n": 3,
+    "q": "Vertical Scale-Up: Adding discrete resources (like multiple machines) and making them behave as a \nconverged unit.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Horizontal Scale-Out: Adding discrete resources (like multiple machines) …",
+    "page": 1,
+    "exp": {
+      "en": "This describes Horizontal Scale-Out, not Vertical Scale-Up. Vertical scaling means upgrading existing hardware (more RAM, faster CPU), while horizontal scaling adds more machines to the cluster.",
+      "ar": "لا، هذا يوصف التوسع الأفقي. التوسع العمودي يعني تطور نفس السيرفر (تزيد رامات أو معالج أقوى)، مو أنك تضيف سيرفرات جديدة للمجموعة."
+    },
+    "hasImage": true
+  },
+  {
+    "n": 4,
+    "q": "For HPC, Horizontal Scale-Out is better and less costly than Vertical Scale-Up",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 1,
+    "exp": {
+      "en": "High Performance Computing benefits from horizontal scaling using commodity hardware rather than expensive high-end servers. It provides better fault tolerance, scalability, and cost-efficiency for parallel workloads.",
+      "ar": "الحوسبة عالية الأداء تستفيد من التوسع الأفقي لأنه أرخص وتقدر تستخدم سيرفرات عادية بدل السيرفرات الغالية، وكمان لو انكسر سيرفر ما يوقف الشغل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 5,
+    "q": "CAPEX model: Buy the dedicated hardware and pay for it over a period of time",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 1,
+    "exp": {
+      "en": "Capital Expenditure involves upfront investment in physical infrastructure that is depreciated over time. This traditional model requires significant initial cash outlay for servers and equipment.",
+      "ar": "CAPEX يعني تدفع فلوس مقدم على العتاد والسيرفرات، وتحسبها أصول تنزل قيمتها مع الوقت. يعني استثمار أولي كبير."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 6,
+    "q": "OPEX model: Use shared cloud infrastructure and pay only as you use it",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 1,
+    "exp": {
+      "en": "Operational Expenditure converts IT costs to ongoing operational expenses. Organizations rent cloud resources with utility-style pricing, improving cash flow and reducing financial risk.",
+      "ar": "OPEX يعني تأجر وتدفع شهري أو حسب الاستخدام، زي فاتورة الكهرباء. ما تحتاج تدفع مقدم، تدفع بالتدريج حسب ما تستهلك."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 7,
+    "q": "For moving to cloud,  we move from OPEX to CAPEX model",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "CAPEX to OPEX model",
+    "page": 1,
+    "exp": {
+      "en": "Cloud migration shifts spending from CAPEX (buying hardware) TO OPEX (renting services). This shift eliminates upfront capital investments in favor of predictable monthly operational costs.",
+      "ar": "لما تروح للكلاود، تتحول من CAPEX (الشراء) إلى OPEX (الأجار). يعني بدل ما تشتري سيرفرات بمئة ألف ريال مقدم، تصير تدفع مبلغ أقل كل شهر."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 8,
+    "q": "Under-provisioning: Allocating more resources than required, leading to wasted costs",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Over-provisioning: Allocating more resources than required, leading to wasted costs",
+    "page": 1,
+    "exp": {
+      "en": "This describes Over-provisioning. Under-provisioning means allocating too few resources, causing performance issues. Over-provisioning wastes money on unused capacity.",
+      "ar": "لا، هذا وصف الـ Over-provisioning. الـ Under-provisioning يعني مواردك قليلة عن اللزوم والسيرفر يصير بطيئ أو يوقف. أما Over-provisioning يعني حاط فلوس زايدة على سيرفرات ما تستخدمها."
+    },
+    "hasImage": true
+  },
+  {
+    "n": 9,
+    "q": "Over-provisioning: Allocating fewer resources than required, leading to poor service performance and \nloss of customers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Under-provisioning: Allocating fewer resources than required, leading to poor ….",
+    "page": 2,
+    "exp": {
+      "en": "This describes Under-provisioning. Over-provisioning means allocating excessive resources beyond requirements, resulting in wasted infrastructure costs and idle servers.",
+      "ar": "لا، هذا وصف الـ Under-provisioning. الـ Over-provisioning يعني مخصص لك سيرفرات زايدة وفاضية، يعني حرام فلوسك رايحة على الفاضي."
+    },
+    "hasImage": true
+  },
+  {
+    "n": 10,
+    "q": "Elasticity helps match resources with demand",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 2,
+    "exp": {
+      "en": "Elasticity enables automatic scaling of resources up during demand spikes and down during quiet periods. This ensures optimal performance without overpaying for idle capacity.",
+      "ar": "المرونة (Elasticity) يعني السيرفرات تكبر تلقائياً لما يجي ضغط على الموقع، وتصغر لما يروح الضغط. عشان توفر فلوس وما يوقف الموقع."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 11,
+    "q": "Dynamic provisioning: Automatically allocates/de-allocates resources based on usage",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 2,
+    "exp": {
+      "en": "Dynamic provisioning automates resource management by monitoring utilization and spinning up or terminating instances based on predefined policies and thresholds.",
+      "ar": "التوفير الديناميكي يعني النظام يفتح لك سيرفرات جديدة لحاله لما يحس بالضغط، ويسكرها لحاله لما الضغط يروح. كله أوتوماتيكي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 12,
+    "q": "Public Cloud: The cloud infrastructure is provisioned for exclusive use by a single organization",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Private Cloud: The cloud infrastructure is provisioned for exclusive use by a single organization",
+    "page": 2,
+    "exp": {
+      "en": "This describes Private Cloud. Public Cloud (AWS, Azure, GCP) is shared among multiple tenants. Private cloud is dedicated to a single organization.",
+      "ar": "لا، هذا وصف السحابة الخاصة (Private). أما السحابة العامة (Public) زي AWS و Azure تكون مشتركة بين ناس كثير، مو مخصصة لك أنت بس."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 13,
+    "q": "Hybrid Cloud: A composition of two or more distinct cloud infrastructures (private, community, or \npublic)",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 2,
+    "exp": {
+      "en": "Hybrid Cloud combines private and public clouds, allowing data and applications to move between them. This gives flexibility to keep sensitive data on-premises while using public cloud for scalability.",
+      "ar": "السحابة الهجينة تجمع بين السحابة الخاصة والعامة. يعني تحتفظ ببياناتك الحساسة عندك في الشركة، والباقي تخليه في الكلاود العام."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 14,
+    "q": "Cloud Bursting: When an application in a private cloud moves to a public cloud to handle a spike in \ndemand.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 2,
+    "exp": {
+      "en": "Cloud bursting extends private cloud capacity to public cloud during traffic spikes. This hybrid approach ensures service continuity without over-investing in private infrastructure.",
+      "ar": "الانفجار السحابي يعني لما يجي ضغط على سيرفراتك الخاصة، يفتح لك تلقائياً سيرفرات في الكلاود العام عشان تساعده، وترجع لحاله لما يروح الضغط."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 15,
+    "q": "Multi-cloud: When multiple cloud vendors provide services together in a heterogeneous architecture.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 2,
+    "exp": {
+      "en": "Multi-cloud uses services from multiple providers (e.g., AWS + Azure + Google) to avoid vendor lock-in and leverage best-of-breed services from each platform.",
+      "ar": "السحابة المتعددة يعني تستخدم أكثر من مزود (مثل AWS و Azure مع بعض)، عشان ما تكون مرتبط بشركة واحدة وتستفيد من أفضل خدمة كل واحد."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 16,
+    "q": "Type 1 Hypervisor (Bare Metal): Runs directly on the guest operating system (OS)",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Runs directly on the Hardware",
+    "page": 2,
+    "exp": {
+      "en": "Type 1 hypervisors run directly on physical hardware (bare metal), not on a guest OS. Examples: VMware ESXi, Microsoft Hyper-V. Type 2 runs on a host OS.",
+      "ar": "لا، النوع الأول (Type 1) يعمل مباشرة على العتاد (الهاردوير)، مو على نظام تشغيل. مثل VMware ESXi. أما اللي يعمل على نظام تشغيل يكون Type 2."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 17,
+    "q": "A virtual machine (VM) is a software implementation of a computer that executes programs.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 2,
+    "exp": {
+      "en": "Virtualization abstracts physical hardware to create software-based computers. Each VM runs a full OS and is isolated from other VMs on the same host.",
+      "ar": "الجهاز الافتراضي يعني سيرفر برمجي داخل سيرفر حقيقي. كل جهاز افتراضي له نظام تشغيل كامل ومعزول عن الباقي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 18,
+    "q": "Hypervisor: Provides a uniform abstraction of the underlying physical machine.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 3,
+    "exp": {
+      "en": "The hypervisor creates a virtualization layer that abstracts CPU, memory, storage, and networking, presenting standardized virtual hardware to guest operating systems.",
+      "ar": "الهايبرفايزر يعني البرنامج اللي يقسم السيرفر الحقيقي إلى سيرفرات افتراضية، ويوحد الموارد بينهم."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 19,
+    "q": "Type 2 Hypervisor (Hosted): The hypervisor runs on a guest OS, like KVM",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 3,
+    "exp": {
+      "en": "Type 2 hypervisors run on top of a host operating system. KVM operates within the Linux kernel which functions as the host OS, placing it in the hosted hypervisor category.",
+      "ar": "النوع الثاني من الهايبرفايزر يعمل فوق نظام تشغيل مضيف. KVM يشتغل داخل نواة Linux اللي تكون نظام التشغيل الأساسي، فهي تصنف Type 2."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 20,
+    "q": "RESTful Web services use a uniform and predefined set of stateless operations.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 3,
+    "exp": {
+      "en": "REST architecture uses standard HTTP methods (GET, POST, PUT, DELETE) statelessly. Each request contains all information needed for processing, making it scalable and cacheable.",
+      "ar": "REST يستخدم طرق HTTP المعروفة (GET, POST, PUT, DELETE) بدون حفظ حالة. كل طلب يجي كامل بمعلوماته، عشان كذا يكون سريع وقابل للتوسع."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 21,
+    "q": "Cloud Broker: A party that provides connectivity and transport of cloud services from providers to \nconsumers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Cloud Broker: A party that provides connectivity and transport of cloud services from providers to consumers.",
+    "page": 3,
+    "exp": {
+      "en": "This describes Cloud Carrier (network provider). Cloud Broker manages service delivery and negotiates relationships between providers and consumers.",
+      "ar": "لا، هذا وصف الـ Cloud Carrier (مزود الشبكة). أما الـ Broker يكون الوسيط اللي يدير العلاقة بينك وبين شركة الكلاود."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 22,
+    "q": "Cloud Consumer: A person or organization that maintains a business relationship with, and uses \nservice from, Cloud Providers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 3,
+    "exp": {
+      "en": "Cloud Consumers are end-users or organizations that purchase and use cloud services through portals or APIs, managing their data and applications in the cloud.",
+      "ar": "المستهلك هو أنت أو شركتك اللي تستخدم خدمات الكلاود وتدفع فلوس للمزود."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 23,
+    "q": "Cloud Carrier: An entity that manages the use and delivery of services and negotiates relationships \nbetween providers and consumers",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Cloud Carrier: A party that provides connectivity and transport of cloud services from providers to consumers.",
+    "page": 3,
+    "exp": {
+      "en": "This describes Cloud Broker. Cloud Carrier provides network infrastructure and connectivity (the 'pipes') for cloud services.",
+      "ar": "لا، هذا وصف الـ Cloud Broker. أما الـ Carrier هو اللي يوفر لك النت والخطوط (الأنابيب) عشان توصل للكلاود."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 24,
+    "q": "Cloud Auditor: A party that can conduct independent assessments of security, performance, and \ninformation system operations.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 3,
+    "exp": {
+      "en": "Cloud auditors provide third-party verification of compliance with standards (ISO 27001, SOC 2) and assess security controls, policies, and procedures.",
+      "ar": "المدقق السحابي جهة خارجية تفحص أمان النظام وتتأكد إنه مطابق للمعايير الدولية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 25,
+    "q": "Cloud Provider: A person, organization, or entity responsible for making a service available to \ninterested parties.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 3,
+    "exp": {
+      "en": "Cloud Providers (AWS, Azure, Google Cloud) own the infrastructure, data centers, and platforms. They manage physical resources and deliver computing as a service.",
+      "ar": "مزود الكلاود (زي AWS و Google) هم اللي يملكون السيرفرات ومراكز البيانات ويأجرونها لك."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 26,
+    "q": "PaaS Consumer: These are typically system administrators who manage physical hardware.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "IaaS Consumer: These are typically system administrators who manage physical hardware.",
+    "page": 3,
+    "exp": {
+      "en": "PaaS consumers are application developers deploying code without managing infrastructure. System administrators managing VMs are IaaS consumers.",
+      "ar": "لا، مستهلك PaaS يكون المبرمج اللي ينزل كوده بس. أما مسؤول الأنظمة اللي يدير السيرفرات يكون مستهلك IaaS."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 27,
+    "q": "SaaS Consumer: Typically end users who directly use software applications or software \nadministrators who configure applications for end-users.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 4,
+    "exp": {
+      "en": "SaaS delivers ready-to-use applications (Gmail, Salesforce). Consumers are either end-users accessing software through browsers, or administrators configuring settings, with no server management needed.",
+      "ar": "SaaS يعني البرنامج جاهز تستخدمه مباشرة (زي Gmail). إما تكون مستخدم عادي أو مسؤول ضبط الإعدادات، وما يحتاج تدير سيرفرات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 28,
+    "q": "IaaS Consumers: These are typically application developers who design, test, and deploy software",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "PaaS Consumer: These are typically application developers who design, test, and deploy software",
+    "page": 4,
+    "exp": {
+      "en": "IaaS consumers manage VMs, storage, and networks. Developers focusing only on code without managing infrastructure are PaaS consumers.",
+      "ar": "لا، مستهلك IaaS يدير الأجهزة الافتراضية والشبكات. أما المبرمج اللي بس يكتب كود وما يدير شي، يكون PaaS."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 29,
+    "q": "WSDL (Web Service Description Language): Is used by the client to understand how exactly to \ninvoke a web service.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 4,
+    "exp": {
+      "en": "WSDL is an XML format describing web service endpoints, operations, and message formats. Clients use it to generate code for service invocation.",
+      "ar": "WSDL هو ملف XML يشرح كيف تتكلم مع خدمة الويب (Web Service)، يعني أي دوال متاحة وكيف تستخدمها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 30,
+    "q": "HTTP Methods (GET): Is used to create a new resource using the instructions in the request body.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "HTTP Methods (POST): Is used to create a new resource using the instructions in the request body.",
+    "page": 4,
+    "exp": {
+      "en": "GET retrieves resources. POST creates new resources with data in the request body. Using GET for creation violates REST principles.",
+      "ar": "لا، GET تستخدم للقراءة فقط. اللي تنشئ موارد جديدة هي POST. استخدام GET للإنشاء خطأ."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 31,
+    "q": "Mashup: A phenomenon to create new services by combining data or functionality from two or more \nresources.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 4,
+    "exp": {
+      "en": "Web mashups integrate data from multiple sources (e.g., Google Maps + real estate data) to create composite services with enhanced value.",
+      "ar": "Mashup يعني تدمج بيانات من مصادر مختلفة (مثل خرائط Google مع عقارات) عشان تسوي خدمة جديدة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 32,
+    "q": "Host machine: The virtual machine (VM) that runs on top of the hardware",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Host machine is hardware; Guest machine is the virtual machine that runs on top of the",
+    "page": 4,
+    "exp": {
+      "en": "Host machine is the physical hardware. Guest machine is the VM running on the hypervisor. This distinction is fundamental to virtualization.",
+      "ar": "لا، Host هو الجهاز الحقيقي (الفيزيائي). أما Guest هو الجهاز الافتراضي اللي داخل الـ Host."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 33,
+    "q": "Nested Virtualization: The process of running a virtual machine within another virtual machine.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 4,
+    "exp": {
+      "en": "Nested virtualization allows a VM to act as a hypervisor and host its own VMs. Useful for testing hypervisors and development environments.",
+      "ar": "المحاكاة المتداخلة يعني تشغل جهاز افتراضي داخل جهاز افتراضي ثاني. تستخدم للتجربة والتطوير."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 34,
+    "q": "Hardware-assisted virtualization: Provides complete isolation with minimal performance overhead.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 4,
+    "exp": {
+      "en": "CPU virtualization extensions (Intel VT-x, AMD-V) allow hypervisors to run privileged instructions directly, providing near-native performance with strong isolation.",
+      "ar": "المعالجات الحديثة فيها خاصية (Intel VT-x, AMD-V) تخلي الهايبرفايزر يشتغل بسرعة عالية ويعزل الجهاز الافتراضي بقوة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 35,
+    "q": "Full virtualization: Requires the guest operating systems to be adapted or modified.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Paravirtualization: Requires the guest operating systems to be adapted or modified.",
+    "page": 4,
+    "exp": {
+      "en": "Full virtualization runs unmodified guest OSes. Paravirtualization requires guest OS modifications to communicate with the hypervisor.",
+      "ar": "لا، الفيرتشوالايزيشن الكامل يشتغل على أنظمة التشغيل بدون تعديل. أما البارافيرتشوالايزيشن يحتاج تعديل النظام."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 36,
+    "q": "Amazon Machine Image (AMI): A template for the instance (for example, an operating system, an \napplication server, and applications)",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "An AMI is a packaged environment containing OS, application server, and applications needed to launch an EC2 instance. It enables rapid, consistent deployment.",
+      "ar": "AMI يعني نسخة جاهزة من السيرفر فيها نظام التشغيل والبرامج، تقدر تفتح منها سيرفرات متشابهة بسرعة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 37,
+    "q": "Storage Area Network (SAN): A dedicated network that provides access to consolidated, block-level \ndata storage.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "SAN is a specialized, high-speed network connecting servers to storage devices (disk arrays). It presents storage as block-level devices for high performance.",
+      "ar": "SAN هي شبكة خاصة وسريعة تربط السيرفرات بأجهزة التخزين (الديسكات)، وتعطيهم مساحة تخزين على مستوى الكتل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 38,
+    "q": "SAN Benefit: Allows servers to boot from the SAN itself, enabling quick replacement of faulty servers",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "Boot-from-SAN allows servers to load OS from the storage network. If a server fails, point a replacement to the same SAN LUN for instant recovery.",
+      "ar": "من مميزات SAN إن السيرفر يقدر يشغل نظامه من التخزين نفسه. لو خرب السيرفر، تركب سيرفر جديد وتشبكه على نفس المساحة بسرعة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 39,
+    "q": "NoSQL databases: Database systems that work only with tabular relations like traditional SQL.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "“Not Only SQL” i.e. database systems that works on other than the tabular relations used in relational databases.",
+    "page": 5,
+    "exp": {
+      "en": "NoSQL means 'Not Only SQL.' These databases handle unstructured data using flexible schemas (key-value, documents, graphs), unlike rigid SQL tables.",
+      "ar": "لا، NoSQL يعني 'ليس فقط SQL'. قواعد بيانات NoSQL تتعامل مع البيانات غير المنظمة (مستندات، رسوم بيانية) بعكس جداول SQL الصارمة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 40,
+    "q": "CAP Theorem: It is impossible for a distributed system to simultaneously provide Consistency, \nAvailability, and Partition tolerance.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "The CAP Theorem states that distributed systems can only guarantee two of three: Consistency, Availability, and Partition Tolerance. This drives database architecture decisions.",
+      "ar": "مبرهنة CAP تقول إنك ما تقدر تحقق الثلاث أشياء مع بعض في نفس الوقت: الاتساق، التوفر، وتسامح التجزئة. لازم تختار اثنين."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 41,
+    "q": "Eucalyptus: An open-source platform for private clouds that is compatible with Amazon EC2 APIs.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "Eucalyptus enables AWS-compatible private clouds. It provides EC2-compatible APIs, allowing tools built for AWS to work in private environments.",
+      "ar": "Eucalyptus منصة مفتوحة المصدر تسوي لك سحابة خاصة في شركتك متوافقة مع AWS، يعني نفس أوامر AWS تشتغل عليها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 42,
+    "q": "Content Delivery Network (CDN): Used to increase latency by storing data far from the end users.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "CDN is a geographically distributed network of proxy servers and their data centers, to provide high availability and performance",
+    "page": 5,
+    "exp": {
+      "en": "CDNs DECREASE latency by caching content at edge locations close to users. They improve load times by serving content from nearby servers.",
+      "ar": "لا، CDN تقلل زمن الاستجابة (اللي is latency) مو تزيده. تحفظ نسخ من الموقع في سيرفرات قريبة من المستخدم عشان يفتح بسرعة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 43,
+    "q": "Orchestration: The automated arrangement, coordination, and management of complex workflows \nand resource lifecycles.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "Cloud orchestration (Kubernetes, Terraform) automates deployment, management, and scaling of multi-tier applications, coordinating networking, compute, and storage.",
+      "ar": "الأوركستريشن (مثل Kubernetes) يعني أتمتة إدارة وتوزيع الحاويات والسيرفرات بشكل آلي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 44,
+    "q": "Google File System (GFS): A scalable distributed file system for large distributed data-intensive \napplications.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 5,
+    "exp": {
+      "en": "GFS is Google's distributed file system designed for petabytes of data across commodity hardware. It optimizes for large sequential reads and fault tolerance.",
+      "ar": "GFS هو نظام ملفات جوجل الموزع اللي يخزن بيتابايت من البيانات على سيرفرات عادية، ويتحمل الأعطال."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 45,
+    "q": "Google App Engine (GAE): A popular example of Infrastructure as a Service (IaaS).",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "GAE is a PaaS that allows developers to deploy applications without managing servers, with automatic scaling and maintenance.",
+    "page": 6,
+    "exp": {
+      "en": "GAE is Platform as a Service (PaaS), not IaaS. It abstracts infrastructure management—developers upload code while Google handles scaling and maintenance.",
+      "ar": "لا، GAE هو PaaS مو IaaS. يعني أنت بس تنزل الكود وجوجل تدير السيرفرات و التوسع."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 46,
+    "q": "For Containers, programs inside a container can see all files and devices on the host system.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "For Containers, programs running inside of a container can only see the container's contents and devices assigned to the container.",
+    "page": 6,
+    "exp": {
+      "en": "Containers are isolated using Linux namespaces. By default, processes see only the container's filesystem, not the host system. This is fundamental to container security.",
+      "ar": "لا، الحاوية معزولة. البرامج اللي داخلها ما تشوف إلا ملفات الحاوية نفسها، مو ملفات السيرفر الأساسي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 47,
+    "q": "Container is a running process interacting with its own private filesystem provided by a Container \nimage.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 6,
+    "exp": {
+      "en": "A container is a runtime instance of an image, consisting of the application process and its private filesystem (read-only image layers + writable container layer).",
+      "ar": "الحاوية هي عملية شغالة (Process) لها ملفاتها الخاصة المحفوظة في الـ Image."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 48,
+    "q": "Docker is a platform for developers and sysadmins to build, run, and share applications with \ncontainers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 6,
+    "exp": {
+      "en": "Docker provides the Docker Engine for running containers, Docker Hub for sharing images, and Dockerfile for defining environments. It enables consistent deployment.",
+      "ar": "Docker منصة تسمح للمبرمجين يبنون ويشغلون ويشاركون التطبيقات داخل حاويات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 49,
+    "q": "All containers are considered heavier and consume more resources compared to traditional Virtual \nMachines.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "All containers are run by a single operating system kernel and therefore use fewer resources than VMs.",
+    "page": 6,
+    "exp": {
+      "en": "Containers are lighter than VMs because they share the host OS kernel. VMs need a full guest OS per instance; containers can run with megabytes vs gigabytes for VMs.",
+      "ar": "لا، الحاويات أخف من الأجهزة الافتراضية. لأنها تشترك بنظام التشغيل الأساسي، مو مثل الـ VM اللي له نظام كامل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 50,
+    "q": "DockerHub: A popular example of Software as a Service (SaaS).",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "DockerHub is a Container as a Service (CaaS) repository used to store and share Docker images.",
+    "page": 6,
+    "exp": {
+      "en": "DockerHub is Container as a Service (CaaS)—a registry for Docker images. It's specifically for container image management, not end-user software applications.",
+      "ar": "لا، DockerHub هو CaaS (مستودع للحاويات) مو SaaS. مكان ترفع فيه صور الحاويات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 51,
+    "q": "Docker can build images automatically by reading the instructions from a Dockerfile.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 6,
+    "exp": {
+      "en": "Dockerfiles contain instructions (FROM, RUN, COPY) that Docker executes to assemble images layer by layer. This Infrastructure-as-Code approach ensures reproducible builds.",
+      "ar": "Dockerfile هو ملف فيه أوامر Docker يقراها ويبني منها الـ Image تلقائياً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 52,
+    "q": "Dockerfile: A text document that contains all the commands a user could call on the command line to \nassemble an image.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 6,
+    "exp": {
+      "en": "A Dockerfile automates image creation by scripting dependency installation and environment configuration. Each instruction creates a cached layer for efficient rebuilds.",
+      "ar": "Dockerfile هو ملف نصي فيه أوامر تجميع الـ Image خطوة بخطوة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 53,
+    "q": "Container as a Service (CaaS): A service model that allows users to manage and deploy containers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 6,
+    "exp": {
+      "en": "CaaS (AWS ECS, Azure ACI) provides managed container orchestration. It sits between IaaS (managing VMs) and PaaS (managing applications), giving container control with infrastructure abstraction.",
+      "ar": "CaaS خدمة تسمح لك تدير وتنشر الحاويات بسهولة، بين الـ IaaS و الـ PaaS."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 54,
+    "q": "CaaS do not include development tools.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 7,
+    "exp": {
+      "en": "Container as a Service focuses specifically on container orchestration, deployment, and management infrastructure. Unlike PaaS which provides comprehensive development environments, CaaS stops at the container runtime level.",
+      "ar": "صح، CaaS يعني بس إدارة الحاويات والتشغيل، مو تطوير. ما فيها أدوات برمجة مثل الـ PaaS."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 55,
+    "q": "PaaS is for application development and deployment, while CaaS is for managing container \nenvironments.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 7,
+    "exp": {
+      "en": "PaaS abstracts everything but code (Heroku). CaaS provides container orchestration, allowing teams to manage deployment, networking, and scaling with more control than PaaS.",
+      "ar": "PaaS للتطوير والبرمجة، أما CaaS فلإدارة دورة حياة الحاويات فقط."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 56,
+    "q": "Distributed Version Control (DVC): Single server holds the code base.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Distributed Version Control (DVC): Every developer has a full copy of the project history on their local machine.",
+    "page": 7,
+    "exp": {
+      "en": "That's Centralized VCS (SVN). In Distributed VCS (Git), every developer has a full local copy of the repository with complete history.",
+      "ar": "لا، هذا وصف النظام المركزي (Centralized). أما الموزع (Git) فكل مبرمج عنده نسخة كاملة من الكود."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 57,
+    "q": "Centralized Version Control (CVC): Every developer has a full copy of the project history on their \nlocal machine.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Centralized Version Control (CVC): Single server holds the code base.",
+    "page": 7,
+    "exp": {
+      "en": "That's Distributed VCS. In Centralized VCS, only the server maintains the definitive repository; clients have working copies only.",
+      "ar": "لا، هذا وصف النظام الموزع. أما المركزي فالسيرفر هو اللي يحتفظ بالكود كامل، والمبرمجين عندهم نسخ جزئية فقط."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 58,
+    "q": "Version Control System (VCS): A system that records changes to a file or set of files over time so \nthat you can recall specific versions later.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 7,
+    "exp": {
+      "en": "VCS tracks modifications, maintaining history of changes, who made them, and when. It enables reverting, branching, and collaboration without conflicts.",
+      "ar": "نظام التحكم بالإصدار يسجل كل تغيير تسويه على الملفات، عشان تقدر ترجع لنسخ قديمة أو تشوف من عدل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 59,
+    "q": "GitHub: A web-based hosting service for version control using Git.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 7,
+    "exp": {
+      "en": "GitHub hosts Git repositories online with collaboration features: pull requests, issue tracking, wikis, and GitHub Actions for CI/CD.",
+      "ar": "GitHub موقع يستضيف مشاريع Git على الإنترنت، فيه ميزات تعاون زي Pull Requests وغيره."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 60,
+    "q": "Cons of Centralized Version Control (CVC): Single point of failure.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 7,
+    "exp": {
+      "en": "If the central CVC server fails, no one can commit or access history. This vulnerability is why Git (distributed) is now dominant.",
+      "ar": "صح، لو خرب السيرفر المركزي، كل المبرمجين يوقفون. عشان كذا الناس استعاضت عنه بـ Git."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 61,
+    "q": "Advantages of Distributed Version Control (DVC): Many operations, no single point of failure",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 7,
+    "exp": {
+      "en": "Distributed VCS enables numerous operations to be performed locally (committing, branching, merging) without network. It eliminates single points of failure since every developer's repository is a complete backup.",
+      "ar": "صح، في النظام الموزع تقدر تشتغل محلي بدون نت (تعدل، تفرع، تدمج)، ولو خرب سيرفر واحد ما يضر لأن عند كل مبرمج نسخة كاملة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 62,
+    "q": "Git is a centralized version-control system.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Git is a distributed version-control system.",
+    "page": 7,
+    "exp": {
+      "en": "Git is Distributed VCS. Every clone is a full repository with complete history, unlike centralized systems like SVN.",
+      "ar": "لا، Git هو نظام موزع (Distributed). كل نسخة عندك هي مستودع كامل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 63,
+    "q": "Git-LFS (Large File Storage): replaces large files such as audio samples, videos, datasets, and \ngraphics with text pointers inside Git.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 8,
+    "exp": {
+      "en": "Git-LFS stores large files on a remote server, replacing them with small pointers in the repo. This keeps repositories lightweight while versioning large assets.",
+      "ar": "Git-LFS يخزن الملفات الكبيرة (فيديوهات، صوت) في مكان ثاني ويحط مؤشر في Git، عشان ما يثقل المستودع."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 64,
+    "q": "Distributed File System (DFS): The primary goal is to move data to workers to save network \nbandwidth.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Distributed File System (DFS): The primary goal is to move workers to data to save network bandwidth.",
+    "page": 8,
+    "exp": {
+      "en": "DFS follows 'data locality'—moving computation to where data resides, not moving data to compute nodes. Hadoop schedules jobs on nodes containing the data blocks.",
+      "ar": "لا، العكس. النظام يروح يجيب الحساب للبيانات (يعالجها في مكانها)، مو ينقل البيانات لمكان الحساب."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 65,
+    "q": "The 5 characteristics of Big Data (5Vs) include: Volume, Variety, Velocity, Veracity, and Value.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 8,
+    "exp": {
+      "en": "The 5Vs define Big Data: Volume (scale), Variety (formats), Velocity (speed), Veracity (quality), and Value (usefulness). These guide architecture decisions.",
+      "ar": "الـ 5Vs هم: الحجم (Volume)، التنوع (Variety)، السرعة (Velocity)، الحقيقة (Veracity)، والقيمة (Value)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 66,
+    "q": "GFS and HDFS are distributed computing environment to process “Big Data”.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 8,
+    "exp": {
+      "en": "Google File System (GFS) and Hadoop Distributed File System (HDFS) are storage systems designed for massive scale, distributing data across commodity servers with replication.",
+      "ar": "GFS و HDFS هي أنظمة ملفات موزعة من Google و Hadoop لتخزين ومعالجة البيانات الضخمة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 67,
+    "q": "GFS and HDFS provide high aggregate performance to a large number of clients.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 8,
+    "exp": {
+      "en": "These systems achieve high throughput by parallelizing access across many DataNodes. They excel at batch processing where many clients simultaneously read/write large files.",
+      "ar": "هذه الأنظمة تعطي أداء عالي لما ناس كثير يقرأون ويكتبون في نفس الوقت، لأنها موزعة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 68,
+    "q": "Coarse-grained sharing: This approach improves resource utilization by multiplexing small tasks \nacross all available resources.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Fine-grained sharing: This approach improves resource utilization by multiplexing small tasks across all available resources.",
+    "page": 8,
+    "exp": {
+      "en": "This describes Fine-grained sharing. Coarse-grained allocates large static chunks, often leaving resources idle. Fine-grained breaks work into small, dynamically scheduled tasks.",
+      "ar": "لا، هذا وصف الـ Fine-grained. الـ Coarse-grained يعطي موارد كبيرة ثابتة، أما Fine-grained يقسم الشغل لمهام صغيرة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 69,
+    "q": "The main components and ecosystem of Big Data: Data analytics, technologies, and visualization.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 8,
+    "exp": {
+      "en": "The Big Data ecosystem includes: Storage (HDFS), Processing (Spark), Analytics (ML), and Visualization (Tableau). These work together to process and visualize massive datasets.",
+      "ar": "نظام البيانات الضخمة يتكون من: التخزين، المعالجة، التحليل، والتصور (رسومات)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 70,
+    "q": "Hadoop: An open-source framework designed for the distributed processing of large data sets across \nclusters of computers using simple programming models.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 8,
+    "exp": {
+      "en": "Hadoop provides distributed storage (HDFS) and processing (MapReduce). It handles hardware failures through replication and scales to hundreds of nodes on commodity hardware.",
+      "ar": "Hadoop منصة مفتوحة المصدر لمعالجة البيانات الضخمة على مجموعات من السيرفرات العادية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 71,
+    "q": "The Datanodes manages metadata, file-to-block mapping, and coordinates access to data in HDFS.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "The Namenode (master) manages metadata, file-to-block mapping, and coordinates access to data in HDFS.",
+    "page": 8,
+    "exp": {
+      "en": "This describes the NameNode (master). DataNodes (slaves) store actual data blocks. The NameNode manages the filesystem tree and metadata.",
+      "ar": "لا، هذا وصف الـ NameNode. أما DataNodes فهي اللي تحتفظ بالبيانات الفعلية فقط."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 72,
+    "q": "Namenode store data blocks and handle replication, integrity, and storage management.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "The Namenode (master) manages metadata, file-to-block mapping, and coordinates access to data in HDFS.",
+    "page": 9,
+    "exp": {
+      "en": "NameNode only manages metadata. DataNodes handle block storage, replication to other nodes, and integrity verification on local disks.",
+      "ar": "لا، NameNode يدير البيانات الوصفية فقط. أما DataNodes فتدير التخزين والنسخ الاحتياطي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 73,
+    "q": "MapReduce is a programming model and an implementation for processing and generating large data \nsets.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 9,
+    "exp": {
+      "en": "MapReduce processes data in two phases: Map (filtering/transforming in parallel) and Reduce (aggregating results). It handles distribution and fault tolerance automatically.",
+      "ar": "MapReduce نموذج برمجي يعالج البيانات الضخمة على مرحلتين: Map (التصفية) و Reduce (التجميع)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 74,
+    "q": "MapReduce will not work for inter-process communication and data sharing requirements.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 9,
+    "exp": {
+      "en": "MapReduce is for batch processing with high latency (jobs take seconds to hours). It's unsuitable for real-time IPC or streaming data requiring immediate sharing.",
+      "ar": "صح، MapReduce للمعالجة المجمعة (Batch) واللي تأخذ وقت، مو للتخاطب الفوري بين العمليات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 75,
+    "q": "MapReduce: The 'Reduce' function is used to extract data of interest from each individual record.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "REST HTTP POST is used to add new data.",
+    "page": 9,
+    "exp": {
+      "en": "The Map function extracts/transforms individual records. The Reduce function aggregates results from multiple Maps to produce final output (counts, averages).",
+      "ar": "لا، Map هي اللي تستخرج من كل سجل. أما Reduce فتجمع النتائج من Map وتطلع النتيجة النهائية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 76,
+    "q": "MapReduce: The 'Map' function is used to aggregate intermediate results and generate the final \noutput.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Map extracts data, and Reduce aggregates it to generate the final output.",
+    "page": 9,
+    "exp": {
+      "en": "This is incorrect. In MapReduce, the Map function is used to filter, sort, and extract data from input records, while the Reduce function aggregates these intermediate results to generate the final output.",
+      "ar": "لا، هذا غلط. وظيفة الـ Map هي تصفية وفرز واستخراج البيانات، بينما الـ Reduce هي اللي تجمع وتلخص النتائج البينية وتعطينا المخرج النهائي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 77,
+    "q": "CDN improves performance by distributing content from locations near the end-user.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 9,
+    "exp": {
+      "en": "True. Content Delivery Networks (CDNs) store cached copies of web content on geographically distributed servers closer to users, reducing latency and download times.",
+      "ar": "صحيح. شبكة توصيل المحتوى (CDN) توزع المحتوى على خوادم قريبة من المستخدمين جغرافياً، وهذا يقلل من وقت الاستجابة ويسرع التحميل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 78,
+    "q": "Over-provisioning: Allocating more resources than required, leading to underutilization and wasted \ncost.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 9,
+    "exp": {
+      "en": "True. Over-provisioning means buying or allocating more cloud resources (like CPU or RAM) than your application actually needs, which leads to idle capacity and unnecessary costs.",
+      "ar": "صحيح. الزيادة في توفير الموارد (Over-provisioning) يعني تخصص موارد أكثر من حاجة موقعك الفعالية، وبالتالي تضيع فلوسك على الفاضي على سيرفرات ما تستخدمها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 79,
+    "q": "Cloud Computing requires high upfront cost to buy dedicated hardware.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Cloud Computing uses commodity nodes Grid Computing uses custom nodes.",
+    "page": 9,
+    "exp": {
+      "en": "This is incorrect. Cloud Computing runs on a utility pay-as-you-go model (OPEX), which eliminates the need for any high upfront capital investment (CAPEX) in physical hardware.",
+      "ar": "لا، هذا غلط. الحوسبة السحابية تعتمد على الدفع حسب الاستخدام (OPEX) بدون تكاليف شراء أجهزة ضخمة مقدماً. الدفع المقدم الكبير هو ميزة السيرفرات المحلية التقليدية (CAPEX)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 80,
+    "q": "Grid Computing commonly uses commodity nodes/resources to provide scalable services.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Cloud Computing uses commodity nodes Grid Computing uses custom nodes.",
+    "page": 9,
+    "exp": {
+      "en": "This is incorrect. Grid Computing uses specialized, custom, and homogeneous dedicated nodes, whereas Cloud Computing relies on low-cost, commodity, and heterogeneous hardware instances.",
+      "ar": "لا، هذا غلط. حوسبة الشبكة (Grid) تستخدم أجهزة مخصصة وفائقة ومتجانسة، بينما الكلاود هو اللي يعتمد على أجهزة عادية ورخيصة (commodity nodes) ومشتركة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 81,
+    "q": "Cloud Computing commonly uses custom or heterogeneous nodes shared across different \norganizations.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Cloud Computing uses commodity nodes Grid Computing uses custom nodes.",
+    "page": 10,
+    "exp": {
+      "en": "This is incorrect. Cloud Computing is built on low-cost commodity nodes to scale out cheaply, whereas Grid Computing uses customized, specialized, and dedicated hardware nodes.",
+      "ar": "لا، هذا غلط. الكلاود يستخدم أجهزة عادية ورخيصة (commodity nodes)، أما حوسبة الشبكة (Grid) هي اللي تستخدم أجهزة مخصصة ومصممة خصيصاً لمهمة معينة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 82,
+    "q": "Cloud Architecture: Fabric layer contains raw hardware level resources such as compute, storage, \nand network resources.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 10,
+    "exp": {
+      "en": "True. In cloud management architectures, the Fabric layer represents the physical infrastructure layer, including compute servers, storage units, and network switches.",
+      "ar": "صحيح. طبقة الهيكل (Fabric layer) في معمارية الكلاود هي اللي تحتوي على العتاد المادي الفعلي، زي المعالجات ووحدات التخزين وأجهزة الشبكة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 83,
+    "q": "Google Content Management: It can be used for web information, marketing campaigns, or social \nmedia.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 10,
+    "exp": {
+      "en": "True. Google Content Management systems provide platforms and tools to manage web content, marketing promotions, social media campaigns, and digital assets.",
+      "ar": "صحيح. إدارة المحتوى من جوجل توفر أدوات مخصصة لتنظيم المواقع، حملات التسويق، أو إدارة حسابات شبكات التواصل الاجتماعي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 84,
+    "q": "Service Analysis: Identification and contextualization of market requirements and service reuse.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 10,
+    "exp": {
+      "en": "True. Service Analysis is the initial stage where business/market requirements are analyzed to identify services that are reusable and align with organizational needs.",
+      "ar": "صحيح. مرحلة تحليل الخدمة هي الخطوة الأولى لتحديد احتياجات السوق ودراسة مدى إمكانية إعادة استخدام الخدمات لتوفير الوقت والجهد."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 85,
+    "q": "Service Design: It includes detailed model of the service and refining the service idea for \nimplementation.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 10,
+    "exp": {
+      "en": "True. Service Design focuses on creating a detailed blueprint/model of the service and refining its interfaces, inputs, outputs, and logic before coding starts.",
+      "ar": "صحيح. تصميم الخدمة (Service Design) يعني بناء نموذج وتفاصيل الخدمة وتحديد شكل المدخلات والمخرجات قبل ما تبدأ مرحلة البرمجة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 86,
+    "q": "Service Implementation: It means registering the service in marketplaces and repositories.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Service Implementation: either software with technical service characteristics or executable non- technical service.",
+    "page": 10,
+    "exp": {
+      "en": "This is incorrect. Service Implementation is the actual writing/coding of the software (or creating the executable workflow). Registering the service in directories and marketplaces is part of Service Publishing.",
+      "ar": "لا، هذا غلط. كتابة الكود البرمجي وبناء الخدمة هو مرحلة التطبيق (Implementation). أما تسجيل الخدمة في المتاجر والأدلة فهو مرحلة النشر (Publishing)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 87,
+    "q": "Service Publishing: It includes access rights, costs, pricing models, and SLAs.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 10,
+    "exp": {
+      "en": "True. Service Publishing involves making the service available to users by defining its access permissions, usage costs, subscription pricing models, and SLAs.",
+      "ar": "صحيح. نشر الخدمة (Service Publishing) يتضمن الإعلان عنها وتحديد من له حق الوصول، وتكاليف استخدامها، وطرق الدفع واتفاقية مستوى الخدمة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 88,
+    "q": "Service Retirement: It is monitored for contract management, SLA compliance, billing, and service \nperformance management.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Service Operation: It is monitored for contract management, SLA compliance, billing, and service performance management.",
+    "page": 10,
+    "exp": {
+      "en": "This is incorrect. Monitoring for SLA compliance, billing, and performance occurs during the Service Operation phase (when the service is active). Service Retirement is the decommissioning of a service.",
+      "ar": "لا، هذا غلط. المراقبة للفواتير والالتزام بـ SLA والأداء تتم في مرحلة التشغيل (Service Operation). أما مرحلة التقاعد (Retirement) فهي إيقاف الخدمة نهائياً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 89,
+    "q": "Service Operation: It happens when the service reaches the end of economic or technical \ncompetitiveness.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Service Retirement: It happens when the service reaches the end of economic or technical competitiveness.",
+    "page": 10,
+    "exp": {
+      "en": "This is incorrect. Decommissioning a service because it is no longer profitable or technically competitive is called Service Retirement, not Service Operation.",
+      "ar": "لا، هذا غلط. إيقاف الخدمة لأنها لم تعد مجدية اقتصادياً أو تقنياً يسمى تقاعد الخدمة (Service Retirement) وليس التشغيل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 90,
+    "q": "Cloud Service life cycle includes: Requirements, Discovery, Negotiation, Composition, and \nConsumption.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 11,
+    "exp": {
+      "en": "True. The cloud service lifecycle encompasses these key phases, from analyzing requirements and discovering services to negotiating terms, composing workflows, and consuming resources.",
+      "ar": "صحيح. دورة حياة الخدمة تشمل بالفعل: تحديد المتطلبات، البحث والاكتشاف، التفاوض على الشروط، دمج الخدمات، والاستهلاك الفعلي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 91,
+    "q": "Multiple Cloud Systems serially means using more than one cloud system at the same time.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Multiple Cloud Systems serially means using more than one cloud system one at a time.",
+    "page": 11,
+    "exp": {
+      "en": "This is incorrect. Using multiple cloud systems 'serially' means using them one after the other (one at a time). Using them at the same time is called concurrent or parallel cloud usage.",
+      "ar": "لا، هذا غلط. استخدام السحابة بالتتابع (serially) يعني تستخدم سحابة تلو الأخرى (واحدة تلو الأخرى)، مو تستخدمهم كلهم في نفس الوقت."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 92,
+    "q": "Case 1A: Private cloud within a single administrative domain and trust boundary.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 11,
+    "exp": {
+      "en": "True. Case 1A refers to a private cloud deployment where the entire cloud infrastructure resides inside the client's own administrative control and trusted network domain.",
+      "ar": "صحيح. الحالة 1A تمثل سحابة خاصة (Private Cloud) بالكامل، تقع داخل النطاق الإداري للمؤسسة وداخل حدود شبكتها الموثوقة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 93,
+    "q": "Case 1B: Commercial public cloud within a single administrative domain and inside the client trust \nboundary.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Case 1B: Commercial public cloud within a single administrative domain and outside the client trust boundary.",
+    "page": 11,
+    "exp": {
+      "en": "This is incorrect. Since Case 1B utilizes a commercial public cloud, the infrastructure lies outside the client's physical control and outside their trust boundary (managed by a third-party provider).",
+      "ar": "لا، هذا غلط. السحابة العامة التجارية (Case 1B) تقع خارج حدود ثقة العميل (outside the trust boundary) لأنها تدار من شركة خارجية، وليست داخلها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 94,
+    "q": "Case 2A: Federated cloud of two or more administrative cloud domains in a common trust boundary.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 11,
+    "exp": {
+      "en": "True. Case 2A describes a federated cloud model where multiple independent cloud providers collaborate under a unified agreement to share resources within a shared, established trust boundary.",
+      "ar": "صحيح. الحالة 2A تصف سحابة اتحادية (Federated Cloud) حيث تتعاون سحابات مختلفة لتتشارك الموارد تحت حدود ثقة مشتركة ومحكومة بالاتفاقيات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 95,
+    "q": "Case 2B: Hybrid cloud applications cross a private-public trust boundary.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 11,
+    "exp": {
+      "en": "True. Case 2B represents a hybrid cloud model where applications stretch across both private infrastructure (internal trust) and public cloud (external trust), crossing the trust boundary.",
+      "ar": "صحيح. الحالة 2B تمثل السحابة الهجينة (Hybrid Cloud) حيث يمتد التطبيق ليعبر حدود الثقة بين السحابة الخاصة الداخلية والسحابة العامة الخارجية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 96,
+    "q": "NetBeans IDE supports Web services standards such as JAX-WS, JAX-RS, and JAXB.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 11,
+    "exp": {
+      "en": "True. NetBeans has comprehensive, native support for Java EE web services standards: JAX-WS (for SOAP), JAX-RS (for REST), and JAXB (for XML binding).",
+      "ar": "صحيح. برنامج NetBeans يدعم معايير جافا القياسية لخدمات الويب مثل JAX-WS لـ SOAP، و JAX-RS لـ REST، و JAXB لربط البيانات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 97,
+    "q": "NetBeans SOAP-based Web Services: can be converted to RESTful service resources using the \naction available in the web service node.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 11,
+    "exp": {
+      "en": "True. NetBeans provides convenient wizard features where you can right-click a SOAP web service node and convert it directly into RESTful resource classes.",
+      "ar": "صحيح. يوفر NetBeans خياراً سهلاً يمكّنك من تحويل خدمات SOAP التقليدية إلى خدمات RESTful حديثة بضغطة زر من خلال شجرة المشروع."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 98,
+    "q": "REST HTTP PUT is used to add new data.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "REST HTTP POST is used to add new data.",
+    "page": 11,
+    "exp": {
+      "en": "This is incorrect. In RESTful web services, HTTP POST is the standard method used to create or add new resources, while HTTP PUT is used to update existing resources.",
+      "ar": "لا، هذا غلط. لإضافة أو إنشاء بيانات جديدة (Create)، نستخدم طريقة HTTP POST. أما طريقة PUT فتُستخدم لتحديث أو تعديل بيانات موجودة مسبقاً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 99,
+    "q": "REST HTTP POST is used to update data that already exists.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "REST HTTP PUT is used to update data that already exists.",
+    "page": 11,
+    "exp": {
+      "en": "This is incorrect. In RESTful services, HTTP PUT is designed to update existing resources (or replace them), whereas HTTP POST is designed for creating new resources.",
+      "ar": "لا، هذا غلط. لتحديث أو تعديل بيانات موجودة بالفعل (Update)، نستخدم طريقة HTTP PUT. أما POST فهي اللي تنشئ بيانات جديدة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 100,
+    "q": "RESTful Web Services can provide CRUD functionality using methods such as Read, Write, Update, \nand Remove.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "RESTful Web Services can provide CRUD functionality using methods such as GET, POST, PUT, and DELETE.",
+    "page": 12,
+    "exp": {
+      "en": "This is incorrect. RESTful web services achieve CRUD operations using standard, predefined HTTP methods: GET (Read), POST (Create), PUT (Update), and DELETE (Delete), rather than custom methods like Write or Remove.",
+      "ar": "لا، هذا غلط. خدمات RESTful تحقق عمليات CRUD باستخدام طرق HTTP الأربعة القياسية وهي: GET و POST و PUT و DELETE، وليس كلمات عامة مثل Write أو Remove."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 101,
+    "q": "NetBeans Web Service Clients can generate code for invoking both RESTful and SOAP-based Web \nServices.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 12,
+    "exp": {
+      "en": "True. NetBeans features built-in tools that automatically generate client proxy code for calling SOAP services (via WSDL) and REST services (via WADL or JSON).",
+      "ar": "صحيح. يستطيع NetBeans إنشاء أكواد العميل (client proxy) تلقائياً لاستدعاء وتشغيل خدمات الويب سواء كانت SOAP أو RESTful."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 102,
+    "q": "NetBeans Web Service Clients can create server-side mash-up applications and add services from \nWSDL or WADL files.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 12,
+    "exp": {
+      "en": "True. In NetBeans, you can create mashup services by importing external services from WSDL (SOAP) or WADL (REST) descriptors and combining them in server-side logic.",
+      "ar": "صحيح. يمكن للعملاء في NetBeans بناء تطبيقات مدمجة (Mashups) تجمع خدمات مختلفة من ملفات وصفية مثل WSDL أو WADL."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 103,
+    "q": "NetBeans Web Service Manager can access popular RESTful Web APIs provided by Google, \nFacebook, Yahoo, Flickr, Amazon, Twitter and many more.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 12,
+    "exp": {
+      "en": "True. The NetBeans Web Service Manager integrates with SaaS services, allowing developers to search, drag-and-drop, and invoke popular REST APIs from major providers like Google, Facebook, and Twitter.",
+      "ar": "صحيح. يحتوي مدير خدمات الويب في NetBeans على لوحة تسمح بالوصول المباشر واستيراد خدمات الويب الجاهزة لشركات كبرى مثل جوجل وتويتر وغيرها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 104,
+    "q": "NetBeans Web Service Interoperability Technologies (WSIT): help Web Services work with \ndifferent platforms and systems.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 12,
+    "exp": {
+      "en": "True. WSIT (Web Services Interoperability Technology) is a joint initiative between Sun Microsystems and Microsoft to ensure Java web services interoperate seamlessly with Microsoft's .NET framework.",
+      "ar": "صحيح. تقنية WSIT تم تطويرها لضمان توافقية تشغيل خدمات الويب المبنية بجافا مع المنصات والأنظمة الأخرى مثل بيئة .NET من مايكروسوفت."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 105,
+    "q": "NetBeans supports Apache Axis, while Eclipse supports GlassFish Server.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "NetBeans supports GlassFish, while Eclipse supports Apache Axis Server.",
+    "page": 12,
+    "exp": {
+      "en": "This is incorrect. The support is reversed: NetBeans has built-in, native support for GlassFish (Oracle's application server), whereas Eclipse supports Apache Axis (an XML-based web services framework) via plugins.",
+      "ar": "لا، هذا غلط. العبارة عكست الدعم؛ برنامج NetBeans يدعم خادم GlassFish تلقائياً، بينما Eclipse يدعم خادم Apache Axis عن طريق ملحقات الويب."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 106,
+    "q": "Eclipse Web Services Tools: WST is used for Java Web Services development.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "WST Web Services component contains tools for Web services development which is not Java specific.",
+    "page": 12,
+    "exp": {
+      "en": "This is incorrect. The Web Tools Platform (WST) in Eclipse provides generic tools for web and XML services that are language-independent and not specific to Java.",
+      "ar": "لا، هذا غلط. مكون WST في Eclipse يوفر أدوات عامة لتطوير خدمات الويب وهي ليست مخصصة للغة جافا فقط، بل تدعم لغات وتقنيات ويب متعددة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 107,
+    "q": "Eclipse Web Services Tools: J2EE Standard Tools (JST) contains tools for developing and \ninteracting with Java Web services.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 12,
+    "exp": {
+      "en": "True. JST (J2EE Standard Tools) in Eclipse is specifically tailored for building Java-based enterprise web applications, including Java SOAP and RESTful web services.",
+      "ar": "صحيح. مكون JST في Eclipse مخصص للأدوات القياسية لـ Java Enterprise (J2EE)، ويشمل أدوات لتطوير خدمات الويب المعتمدة على جافا."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 108,
+    "q": "Apache JMeter is used to load test functional behavior and measure performance.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 12,
+    "exp": {
+      "en": "True. Apache JMeter is a highly popular open-source tool designed to test performance, simulate heavy traffic, and measure load capacity of functional behaviors in diverse servers.",
+      "ar": "صحيح. أداة Apache JMeter تُستخدم لاختبار الحمل والأداء للموقع أو السيرفر، وقياس قدرته على تحمل عدد كبير من الطلبات والزيارات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 109,
+    "q": "Apache JMeter can simulate a heavy load on a server, group of servers, network, or object.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 13,
+    "exp": {
+      "en": "True. JMeter can simulate massive concurrent user loads on databases, web servers, networks, and mail protocols to evaluate their reliability and performance limits under stress.",
+      "ar": "صحيح. يستطيع JMeter محاكاة ضغط مستخدمين كبير جداً على خادم واحد أو مجموعة خوادم أو شبكة لمعرفة متى ينهار النظام أو يتباطأ."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 110,
+    "q": "SoapUI is used to create, manage, and execute tests on REST, SOAP, and GraphQL APIs.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 13,
+    "exp": {
+      "en": "True. SoapUI is a dedicated API testing tool that supports complete lifecycle testing of REST, SOAP, GraphQL, and other web services.",
+      "ar": "صحيح. أداة SoapUI هي أشهر أداة مخصصة لإنشاء واختبار واجهات برمجة التطبيقات (APIs) بمختلف أنواعها مثل SOAP و REST و GraphQL."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 111,
+    "q": "SoapUI API Testing Tool supports scriptless functional testing, security testing, load testing, API \nmocking, and protocols such as SOAP/WSDL, REST, and JMS.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 13,
+    "exp": {
+      "en": "True. SoapUI provides a rich suite of features for functional, security, and performance testing, as well as API mocking, without requiring complex scripting.",
+      "ar": "صحيح. يدعم SoapUI اختبارات الأمان والضغط والوظائف والـ Mocking للخدمات بدون الحاجة لكتابة كود معقد، ويدعم بروتوكولات عديدة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 112,
+    "q": "Inter-operational analysis: inspects code within a single operation.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Intra-operational analysis: inspects code within a single operation.",
+    "page": 13,
+    "exp": {
+      "en": "This is incorrect. Examining the code internals of a single method/operation is called Intra-operational analysis. Inter-operational analysis inspects the interactions and calls between different operations.",
+      "ar": "لا، هذا غلط. فحص الكود البرمجي داخل عملية واحدة يسمى التحليل الداخلي (Intra-operational). أما البيني (Inter-operational) فهو اللي يفحص العلاقات بين العمليات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 113,
+    "q": "Intra-operational analysis: inspects relationships between operations and procedures.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Inter-operational analysis: inspects relationships between operations and procedures.",
+    "page": 13,
+    "exp": {
+      "en": "This is incorrect. Inspecting calls and relationships between multiple operations/procedures is called Inter-operational analysis. Intra-operational analysis is limited to inspecting code within a single operation.",
+      "ar": "لا، هذا غلط. فحص العلاقات والاتصالات بين العمليات المختلفة يسمى التحليل البيني (Inter-operational)، وليس الداخلي (Intra-operational)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 114,
+    "q": "Web Service Slicing: a technique that captures a functional subset of a large-scale web service \nusing an Interface slice",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 13,
+    "exp": {
+      "en": "True. Web Service Slicing is a program-slicing technique applied to web services to extract a smaller, self-contained functional subset of the service for analysis or testing.",
+      "ar": "صحيح. تقطيع خدمات الويب (Slicing) هي تقنية تفصل جزءاً وظيفياً معيناً من خدمة كبيرة لتسهيل اختباره وصيانته دون تشغيل الخدمة كاملة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 115,
+    "q": "A subset service provides full of the original service’s functionality.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "A subset service provides only some of the original service’s functionality.",
+    "page": 13,
+    "exp": {
+      "en": "This is incorrect. A subset service provides only a specific portion (some) of the original service's functions, which helps reduce regression testing overhead.",
+      "ar": "لا، هذا غلط. الخدمة الفرعية (Subset service) تقدم جزءاً فقط (only some) من وظائف الخدمة الأصلية، وليس كامل الوظائف."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 116,
+    "q": "Interface slice captured as a subset of the original interface’s provides access to an Interoperable \nslice",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 13,
+    "exp": {
+      "en": "True. By capturing a subset of the service description (e.g. WSDL operations), the interface slice provides a remote client with access to a specific interoperable slice of the implementation.",
+      "ar": "صحيح. شريحة الواجهة (Interface slice) التي تمثل جزءاً من الواجهة الأصلية تمكن العميل البعيد من الوصول لشريحة متوافقة من الخدمة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 117,
+    "q": "An interoperable slice is a portion of the web service code that can be accessed as a subset service \nfrom a remote client.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 13,
+    "exp": {
+      "en": "True. An interoperable slice consists of the minimum code dependencies and parameters required to execute a specific service operation independently from a remote client.",
+      "ar": "صحيح. الشريحة المتوافقة تشغيلياً (Interoperable slice) هي جزء من كود الخدمة يمكن استدعاؤه كخدمة فرعية مستقلة من قِبل العميل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 118,
+    "q": "Unit WSDL (UWSDL): captures changes in the WSDL.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Unit WSDL (UWSDL): captures changes in the Web Service code.",
+    "page": 14,
+    "exp": {
+      "en": "This is incorrect. Unit WSDL (UWSDL) is designed to describe and capture changes made within the underlying web service implementation code, while Difference WSDL (DWSDL) captures changes in the WSDL interface.",
+      "ar": "لا، هذا غلط. ملف UWSDL يتتبع التغيرات التي تحدث في كود الخدمة البرمجي الداخلي (Service code). أما تغييرات الواجهة والـ WSDL فيتتبعها الـ DWSDL."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 119,
+    "q": "Difference WSDL (DWSDL): captures changes in the Web Service code.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Difference WSDL (DWSDL): captures changes in the WSDL.",
+    "page": 14,
+    "exp": {
+      "en": "This is incorrect. Difference WSDL (DWSDL) represents the structural differences in the WSDL interface (methods, parameters), while Unit WSDL (UWSDL) tracks internal code-level changes.",
+      "ar": "لا، هذا غلط. ملف DWSDL مخصص لتتبع الفروق والتغييرات في واجهة الـ WSDL نفسها (Interface)، بينما UWSDL هو اللي يتتبع كود الخدمة الداخلي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 120,
+    "q": "Inter-operational change analysis captures changes that depend on changed operations and \nprocedures.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 14,
+    "exp": {
+      "en": "True. Inter-operational change analysis determines how changes in one operation propagate to and impact other operations that depend on or call them.",
+      "ar": "صحيح. التحليل البيني للتغييرات يدرس مدى تأثير تعديل دالة أو عملية معينة على باقي الدوال والإجراءات التي تتصل بها أو تعتمد عليها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 121,
+    "q": "Parameter WSDL (PWSDL): captures code flow changes at the Web Service code level.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 14,
+    "exp": {
+      "en": "True. Parameter WSDL (PWSDL) captures changes in the data flow and parameters at the code level, aiding in tracking impact analysis during service updates.",
+      "ar": "صحيح. ملف PWSDL يلتقط التغيرات الحاصلة على مستوى تدفق المعلمات والمتغيرات داخل كود الخدمة لضمان توافق البيانات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 122,
+    "q": "PRTWS uses intra-operational change analysis, while ORTWS uses inter-operational change \nanalysis.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "ORTWS uses intra-operational change analysis, while PRTWS uses inter-operational change analysis.",
+    "page": 14,
+    "exp": {
+      "en": "This is incorrect. The analysis mappings are reversed: ORTWS (Operation-based Regression Testing) utilizes intra-operational change analysis, whereas PRTWS (Parameter-based Regression Testing) utilizes inter-operational change analysis.",
+      "ar": "لا، هذا غلط. العبارة عكست التحليلين؛ إطار ORTWS يعتمد على التحليل الداخلي للعملية (intra-operational)، بينما PRTWS يعتمد على التحليل البيني (inter-operational)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 123,
+    "q": "Automated Web Service Change Management (AWSCM): a tool for change analysis based \nregression testing of web service.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 14,
+    "exp": {
+      "en": "True. AWSCM is a framework designed to automate the process of analyzing changes in web services and selecting appropriate regression test cases to verify the update.",
+      "ar": "صحيح. أداة AWSCM هي إطار عمل لأتمتة تحليل التغييرات وتحديد اختبارات التراجع المناسبة لتسريع عملية صيانة الخدمة وتجنب المشاكل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 124,
+    "q": "White box analysis: The internals of the Web Service code are known.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 14,
+    "exp": {
+      "en": "True. White-box analysis (or structural analysis) means the testing team has full access to the source code, internals, and execution paths of the web service.",
+      "ar": "صحيح. تحليل الصندوق الأبيض (White box) يعني أن هيكل وكود الخدمة البرمجي الداخلي معروف ومكشوف للمختبِر بالكامل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 125,
+    "q": "Black box analysis: The internals of the Web Service code are unknown.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 14,
+    "exp": {
+      "en": "True. Black-box analysis refers to testing a service purely from its interface (API inputs/outputs) without having access to or knowledge of the internal source code.",
+      "ar": "صحيح. تحليل الصندوق الأسود (Black box) يعني فحص الخدمة من الخارج فقط (المدخلات والمخرجات) دون معرفة أو كشف كودها البرمجي الداخلي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 126,
+    "q": "Service Change Classifier: change labels to operations that extracts WSDL slice.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 14,
+    "exp": {
+      "en": "True. The Service Change Classifier tags operations based on the types of modifications made to them, helping to extract the correct WSDL slices for targeted testing.",
+      "ar": "صحيح. مصنف تغييرات الخدمة يضع وسوماً وتصنيفات للعمليات المعدلة لمساعدتنا في استخراج الجزء المتأثر بالـ WSDL واختباره بدقة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 127,
+    "q": "Service Evolution Metrics are based on number of operations, WSDL lines, parameters, messages, \nand operation code lines.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. These metrics provide quantitative measurements of how a service evolves over time by analyzing interface details (operations, parameters, lines of WSDL) and implementation code.",
+      "ar": "صحيح. مقاييس تطور الخدمة تعتمد على إحصاء عدد العمليات، المعلمات، الرسائل، وأسطر كود الـ WSDL والبرمجة لقياس حجم التغيير."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 128,
+    "q": "Subset regression testing helps to maintain the QoS and SLA.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. By running only the subset of tests affected by service modifications, subset regression testing verifies that performance, availability (QoS), and agreements (SLAs) remain compliant without wasting test execution time.",
+      "ar": "صحيح. اختبار التراجع الجزئي يساعد في التأكد من بقاء جودة الخدمة (QoS) والاتفاقية (SLA) سليمة بعد أي تعديل، وبأقل وقت وجهد ممكن."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 129,
+    "q": "Quality of Service (QoS): A contract between service provider and consumer.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Quality of Service (QoS): Service performance measurement in cloud computing service.",
+    "page": 15,
+    "exp": {
+      "en": "This is incorrect. QoS refers to the technical measurements of service performance (e.g. response time, throughput, packet loss). The formal contract outlining these requirements is the SLA (Service Level Agreement).",
+      "ar": "لا، هذا غلط. جودة الخدمة (QoS) هي قياس الأداء الفعلي تقنياً (مثل السرعة والتوفر). أما العقد الرسمي والاتفاقية القانونية بين الطرفين فهي الـ SLA."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 130,
+    "q": "Service Level Agreement (SLA): Service performance measurement in cloud computing service.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Service Level Agreement (SLA): A contract between service provider and consumer.",
+    "page": 15,
+    "exp": {
+      "en": "This is incorrect. The SLA is the legal and business contract between the provider and consumer. Technical performance measurements are termed Quality of Service (QoS).",
+      "ar": "لا، هذا غلط. اتفاقية مستوى الخدمة (SLA) هي العقد الرسمي والاتفاق بين العميل والمزود، بينما مقاييس الأداء التقنية تسمى QoS."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 131,
+    "q": "Throughput, availability, and jitter are examples of QoS measurements.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. These parameters measure performance capabilities: throughput (data transfer rate), availability (uptime percentage), and jitter (packet delay variance) are fundamental QoS metrics.",
+      "ar": "صحيح. معدل الإنتاجية (Throughput)، نسبة توفر الخدمة (Availability)، والاضطراب (Jitter) هي قياسات تقنية لجودة أداء الخدمة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 132,
+    "q": "SLA includes quality, availability, and responsibilities.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. A standard SLA details the service level objectives (QoS metrics like uptime), pricing, billing terms, support responsiveness, and mutual responsibilities of both parties.",
+      "ar": "صحيح. تتضمن اتفاقية SLA تفاصيل جودة وأداء الخدمة، ونسبة الإتاحة، والتعويضات عند التقصير، ومسؤوليات كل من المزود والعميل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 133,
+    "q": "Web Service Level Agreement (WSLA): SLA for Web service monitoring.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. WSLA is an XML-based framework developed by IBM to define, measure, and monitor Service Level Agreements for Web services at runtime.",
+      "ar": "صحيح. WSLA هو إطار عمل يستند لـ XML طورته شركة IBM خصيصاً لوصف ومراقبة اتفاقيات مستوى الخدمة لخدمات الويب وتتبعها تلقائياً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 134,
+    "q": "SLA contract includes QoS parameters, SLA negotiation, monitoring, violation detection, and \nenforcement.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. The lifecycle of an SLA covers defining parameters, negotiating agreements, continuous runtime monitoring, detecting violations, and enforcing penalties or credits.",
+      "ar": "صحيح. يغطي العقد دورة إدارة الـ SLA بالكامل: تحديد المقاييس، التفاوض، المراقبة اللحظية، رصد الانتهاكات، وتطبيق العقوبات المترتبة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 135,
+    "q": "Monitoring is useful for preventing failures, verifying service invocation conditions, and triggering \nrecovery actions when needed.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. Service monitoring actively checks system health to prevent downtime, verifies that API invocation rules are met, and triggers automatic recovery workflows if failures occur.",
+      "ar": "صحيح. المراقبة النشطة تفيد في رصد وتفادي المشاكل قبل وقوعها، والتأكد من شروط استدعاء الخدمة، وتشغيل آليات استرداد النظام تلقائياً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 136,
+    "q": "WS-I promotes interoperability across platforms, operating systems, and programming languages",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 15,
+    "exp": {
+      "en": "True. The Web Services Interoperability (WS-I) organization creates guidelines and profiles to ensure different technologies and vendors can exchange XML data seamlessly.",
+      "ar": "صحيح. منظمة WS-I تعمل على وضع مواصفات لضمان التوافقية والتشغيل المشترك لخدمات الويب بين لغات البرمجة والمنصات المختلفة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 137,
+    "q": "WS-I helps define protocols for interoperable exchange of messages between Web services.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 16,
+    "exp": {
+      "en": "True. WS-I profiles define strict guidelines on how standard protocols (like SOAP, WSDL, and UDDI) should be implemented to prevent compatibility issues.",
+      "ar": "صحيح. تساعد مواصفات WS-I في وضع معايير موحدة ومحددة لتبادل الرسائل والتفاعل بين خدمات الويب بشكل متوافق وخالٍ من الأخطاء."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 138,
+    "q": "Regression testing has no relation to maintaining QoS and SLA.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Regression testing helps maintain QoS and SLA after service changes",
+    "page": 16,
+    "exp": {
+      "en": "This is incorrect. Regression testing is essential after updating a service to ensure the changes did not degrade performance (violating QoS parameters) or break compliance with active SLAs.",
+      "ar": "لا، هذا غلط. اختبار التراجع له علاقة وثيقة جداً بجودة الخدمة، لأنه يتأكد أن التعديلات والترقيات الجديدة لم تخرب أداء النظام أو تسبب بطءاً يخرق اتفاقية SLA."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 139,
+    "q": "Reducing regression testing effort can reduce the effort required to monitor and maintain QoS.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 16,
+    "exp": {
+      "en": "True. Optimizing and narrowing down regression tests to only affected areas directly reduces testing costs, time-to-market, and the resources needed to verify QoS compliance.",
+      "ar": "صحيح. تقليل وتبسيط جهد اختبار التراجع يساهم مباشرة في خفض الوقت والتكلفة المطلوبة لفحص وصيانة جودة الخدمة وأمانها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 140,
+    "q": "Change analysis enables regression testing of Web services to manage QoS and enforce SLA \nrequirements.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 16,
+    "exp": {
+      "en": "True. Change analysis identifies modified code or interfaces, enabling developers to run targeted regression tests to maintain performance standards (QoS) and satisfy SLA commitments.",
+      "ar": "صحيح. تحليل التغييرات هو الأداة التي تمكننا من إجراء اختبار تراجع ذكي وموجه للتأكد من حماية جودة الخدمة والالتزام ببنود SLA."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 141,
+    "q": "Hadoop is used for real-time processing, while Storm is used for batch processing.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Storm is used for real-time processing, while Hadoop is used for batch processing.",
+    "page": 16,
+    "exp": {
+      "en": "This is incorrect. The roles are reversed: Apache Hadoop is a framework designed for batch processing of large, static datasets (using MapReduce), whereas Apache Storm is designed for real-time processing of streaming data.",
+      "ar": "لا، هذا غلط. العبارة عكست الأدوار؛ هادوب هو المخصص لمعالجة الدفعات الكبيرة للبيانات الثابتة (batch)، بينما Apache Storm مخصص لمعالجة تدفقات البيانات الفورية في الوقت الحقيقي (real-time)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 142,
+    "q": "Big Data Volume: speed of generation and processing to meet the demands",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Big Data Volume: Refers to the large size of data, such as terabytes and petabytes.",
+    "page": 16,
+    "exp": {
+      "en": "This is incorrect. The speed of data generation and processing is called Velocity. Volume refers to the sheer size and physical scale of the dataset (e.g. Terabytes or Petabytes).",
+      "ar": "لا، هذا غلط. سرعة توليد ومعالجة البيانات تسمى السرعة (Velocity). أما الحجم (Volume) فيشير إلى الضخامة والسعة التخزينية الكبيرة مثل التيرابايت والبيتابايت."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 143,
+    "q": "Apache Storm: A free and open-source distributed real-time computation system used to process \nunbounded streams of data.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 16,
+    "exp": {
+      "en": "True. Apache Storm is designed to process continuous streams of data in real-time with high throughput and horizontal scalability across clusters.",
+      "ar": "صحيح. Apache Storm هو نظام موزع ومفتوح المصدر لمعالجة تدفقات البيانات الضخمة التي لا تنتهي (unbounded streams) بشكل فوري ودقيق."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 144,
+    "q": "Storm Topology: A topology is a graph of spouts and bolts connected with stream groupings.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 16,
+    "exp": {
+      "en": "True. A Storm Topology is a Directed Acyclic Graph (DAG) that defines how data flows between Spouts (sources) and Bolts (processing stages) in a cluster.",
+      "ar": "صحيح. طوبولوجيا Storm هي مخطط تدفق المعالجة، ويتكون من Spouts (مصادر تدفق البيانات) و Bolts (وحدات المعالجة الفعلية) وعلاقات الربط بينها."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 145,
+    "q": "Storm Stream: A stream is an unbounded sequence of tuples processed in parallel in a distributed \nfashion.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 16,
+    "exp": {
+      "en": "True. In Storm, a stream is an infinite sequence of tuples (data elements) that are distributed and processed concurrently across multiple nodes.",
+      "ar": "صحيح. تدفق Storm هو سلسلة غير منتهية من البيانات (Tuples) التي يتم توليدها ومعالجتها بالتوازي عبر الخوادم المشتركة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 146,
+    "q": "A MapReduce job runs forever, while a Storm topology finishes after processing data.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "A topology is analogous to a MapReduce job, but a topology runs forever or until you kill it.",
+    "page": 17,
+    "exp": {
+      "en": "This is incorrect. A MapReduce job is designed to process a static dataset and terminate when finished. In contrast, a Storm Topology is built for real-time streaming and runs continuously (forever) until explicitly stopped.",
+      "ar": "لا، هذا غلط. العكس هو الصحيح؛ وظيفة MapReduce تنتهي بمجرد اكتمال معالجة الملفات، بينما طوبولوجيا Storm تعمل بشكل دائم ومستمر دون توقف حتى تقوم بإيقافها يدوياً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 147,
+    "q": "Storm Spout: A spout is a source of streams in a topology.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 17,
+    "exp": {
+      "en": "True. A Spout is the entry point of a Storm topology that reads data from an external source (like Kafka, Twitter API, or queues) and emits it as tuple streams.",
+      "ar": "صحيح. الـ Spout في Storm هو نقطة البداية أو المصدر الذي يسحب تدفق البيانات من الخارج ويضخها داخل شبكة المعالجة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 148,
+    "q": "Storm Bolt: All processing in topologies is done in bolts.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 17,
+    "exp": {
+      "en": "True. Bolts perform all the data transformations, filtering, aggregations, database calls, and interactions inside a Storm topology.",
+      "ar": "صحيح. الـ Bolt هو وحدة المعالجة الفعلية في Storm، وكل عمليات التصفية، الحسابات، التحويلات، أو الحفظ تتم بداخل الـ Bolts."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 149,
+    "q": "Apache Spark: A unified analytics engine for large-scale data processing.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 17,
+    "exp": {
+      "en": "True. Apache Spark is a popular, high-speed open-source engine for big data analysis, SQL queries, machine learning, and stream processing.",
+      "ar": "صحيح. Apache Spark هو محرك تحليلي متكامل وسريع ومفتوح المصدر لمعالجة وتحليل مجموعات البيانات الضخمة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 150,
+    "q": "Apache Spark is only used for batch processing and cannot process streaming data.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Apache Spark can process both batch and streaming data.",
+    "page": 17,
+    "exp": {
+      "en": "This is incorrect. Apache Spark is a unified engine that supports both traditional batch processing and real-time streaming data processing (using Spark Streaming).",
+      "ar": "لا، هذا غلط. يتميز Apache Spark بالمرونة الشديدة وقدرته على معالجة كل من البيانات الدفعية (batch) والبيانات المتدفقة الفورية (streaming) معاً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 151,
+    "q": "Spark architecture depends on two abstractions: RDD and DAG.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 17,
+    "exp": {
+      "en": "True. Spark's core execution model is built around Resilient Distributed Datasets (RDD) as the data model, and Directed Acyclic Graphs (DAG) as the logical execution plan.",
+      "ar": "صحيح. تعتمد بنية Spark بشكل أساسي على مفهومين: الـ RDD (مجموعة البيانات الموزعة المرنة) والـ DAG (مخطط العمليات غير الدائري)."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 152,
+    "q": "Resilient Distributed Datasets (RDD): A distributed memory abstraction used to perform in-\nmemory computations on large clusters.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 17,
+    "exp": {
+      "en": "True. RDD (Resilient Distributed Dataset) is a read-only, partitioned collection of records that can be processed in parallel and reconstructed automatically if a node fails.",
+      "ar": "صحيح. الـ RDD هي الواجهة الأساسية للبيانات في Spark، وهي عبارة عن مجموعة عناصر موزعة على خوادم الشبكة وتتحمل الأعطال تلقائياً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 153,
+    "q": "Keeping data in memory can improve performance in Spark.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 17,
+    "exp": {
+      "en": "True. Caching intermediate datasets in RAM (in-memory computing) is Spark's primary speed advantage, eliminating slow read/write cycles to physical disks between operations.",
+      "ar": "صحيح. الاحتفاظ بالبيانات والنتائج البينية داخل الذاكرة العشوائية (RAM) هو سر سرعة Spark الفائقة مقارنة بأنظمة هادوب التقليدية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 154,
+    "q": "Wide dependency: Each partition of the parent RDD is used by at most one partition of the child \nRDD.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Narrow dependency: Each partition of the parent RDD is used by at most one partition of the child RDD.",
+    "page": 17,
+    "exp": {
+      "en": "This is incorrect. This statement describes a Narrow dependency. In a Narrow dependency, each partition of the parent RDD is used by at most one child partition, requiring no network shuffles.",
+      "ar": "لا، هذا غلط. هذا تعريف الاعتمادية الضيقة (Narrow dependency)، حيث يخدم كل جزء من الأب جزءاً واحداً فقط من الابن، ولا تتطلب نقل بيانات بالشبكة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 155,
+    "q": "Narrow dependency: where multiple child partitions may depend on it.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Wide dependency: where multiple child partitions may depend on it.",
+    "page": 17,
+    "exp": {
+      "en": "This is incorrect. This statement describes a Wide dependency. In a Wide dependency, multiple child partitions depend on data from a single parent partition, requiring a network shuffle (data exchange).",
+      "ar": "لا، هذا غلط. هذا تعريف الاعتمادية الواسعة (Wide dependency) التي تعني اعتماد أجزاء متعددة من الابن على جزء واحد من الأب، مما يتطلب خلط ونقل البيانات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 156,
+    "q": "Direct Acyclic Graph (DAG): is used to perform a sequence of computations in Spark.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. Spark builds a Directed Acyclic Graph (DAG) of stages to represent the chain of transformations to be applied to the RDDs when an action is triggered.",
+      "ar": "صحيح. DAG هو المخطط التوجيهي غير الدائري الذي يحدد سلسلة العمليات والتحويلات التي سيجريها Spark على البيانات بالتتابع وبطريقة ذكية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 157,
+    "q": "When an action such as count or save runs on an RDD, Spark builds a DAG of stages to execute.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. Spark uses lazy evaluation. Transformations are not executed until an \"action\" (like count or save) is called, prompting Spark to construct and run the execution DAG.",
+      "ar": "صحيح. لا يقوم Spark بتنفيذ العمليات إلا عند استدعاء 'إجراء' (Action) مثل count أو save، عندها يبني ويشغل مخطط الـ DAG لتسريع المعالجة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 158,
+    "q": "Narrow dependency requires shuffle operations between stages.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Wide dependency requires shuffle operations between stages.",
+    "page": 18,
+    "exp": {
+      "en": "This is incorrect. A Wide dependency (not Narrow) requires shuffle operations to redistribute data across nodes between stages. Narrow dependencies do not require network shuffles.",
+      "ar": "لا، هذا غلط. الاعتمادية الواسعة (Wide dependency) هي التي تتطلب عمليات خلط ونقل بيانات مكلفة بالشبكة (shuffle)، بينما الضيقة لا تتطلب ذلك."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 159,
+    "q": "DataFrame is a collection of data organized into named columns.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. A Spark DataFrame is a distributed collection of data organized into named columns, conceptually identical to a table in a relational database or a dataframe in R/Python.",
+      "ar": "صحيح. الـ DataFrame هو تمثيل للبيانات الموزعة على شكل أعمدة مسماة، وهو يشبه تماماً الجداول في قواعد البيانات التقليدية أو Pandas."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 160,
+    "q": "FP stands for Frequent Pattern in a dataset of transactions.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. FP-growth is a widely used algorithm in association rule learning and data mining to discover frequent itemsets in transaction databases.",
+      "ar": "صحيح. خوارزمية FP-growth ترمز لنشر النمط المتكرر، وتستخدم في تنقيب البيانات لاكتشاف العناصر التي تتكرر معاً في سلة المشتريات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 161,
+    "q": "Sharding: Dividing the database into parts and storing them on different computers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. Sharding is a database design pattern that splits database tables horizontally, distributing the resulting rows across multiple database engines/servers to improve scale and performance.",
+      "ar": "صحيح. تقسيم قواعد البيانات (Sharding) يعني توزيع أسطر الجداول أفقياً على خوادم مختلفة لزيادة سرعة وسعة القراءة والكتابة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 162,
+    "q": "Availability of a Service: Multiple datacenters always remove all single point of failure risks.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "A single cloud company can still become a single point of failure, so the vendor needs business-continuity strategy agreements.",
+    "page": 18,
+    "exp": {
+      "en": "This is incorrect. Although deploying across multiple datacenters increases availability, the cloud provider itself remains a single point of failure (due to administrative, network, or business failures). Business-continuity SLAs are required to manage this risk.",
+      "ar": "لا، هذا غلط. توزيع البيانات على مراكز متعددة يحمي من كوارث الأجهزة، لكن مزود الخدمة كشركة يظل يمثل نقطة فشل مفردة (single point of failure)، لذلك نحتاج اتفاقيات استمرارية العمل."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 163,
+    "q": "DDoS attack: A multitude of compromised systems attack a single target, causing denial of service \nfor users of the targeted system.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. Distributed Denial of Service (DDoS) attacks use botnets to flood cloud services with massive amounts of junk traffic, exhausting resource limits and rendering them unreachable.",
+      "ar": "صحيح. هجمات حجب الخدمة (DDoS) تستخدم أجهزة مخترقة لإغراق السيرفرات بطلبات وهمية، مما يسبب بطء الموقع أو إغلاقه بالكامل أمام المستخدمين."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 164,
+    "q": "Data Lock-In: Customers cannot easily extract their data and programs from one cloud site to run on \nanother.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 18,
+    "exp": {
+      "en": "True. Data and Vendor Lock-In is a major cloud risk where proprietary APIs, storage formats, or high data migration fees make it highly difficult for a client to transition to another vendor.",
+      "ar": "صحيح. قفل البيانات والخدمات (Data Lock-In) هو خطر يمنع العميل من الانتقال لمزود سحابي آخر بسهولة بسبب استخدام برمجيات وواجهات حصرية مكلفة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 165,
+    "q": "To reduce Data Lock-In risk, storing all data with only one cloud provider is the best solution to avoid \nlosing access to data.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "To reduce Data Lock-In risk, standardizing APIs and storing data on multiple cloud providers can reduce the risk of losing access to data if a single cloud company fails.",
+    "page": 18,
+    "exp": {
+      "en": "This is incorrect. Relying entirely on a single cloud provider increases the risk of data lock-in and catastrophic loss. Storing data on multiple cloud providers (multi-cloud strategy) and standardizing APIs is the best way to safeguard access.",
+      "ar": "لا، هذا غلط. الاعتماد على مزود سحابي واحد بالكامل يزيد من مخاطر فقدان البيانات وقفل الخدمات. الحل هو استخدام واجهات قياسية وتوزيع البيانات على عدة مزودين."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 166,
+    "q": "Data Confidentiality and Auditability: Encrypted storage, VLANs, firewalls, and auditability can \nhelp protect sensitive data in the cloud.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. SLAs should contain business-continuity clauses that guarantee support, data accessibility, and recovery pathways in the event of vendor failure or bankruptcy.",
+      "ar": "صحيح. يجب أن تتضمن اتفاقية مستوى الخدمة بنوداً واضحة لضمان استمرارية الأعمال وحق استرداد البيانات عند تعطل أو إفلاس المزود السحابي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 167,
+    "q": "Data Transfer Bottlenecks: Shipping physical disks can help overcome the high cost and long time \nof Internet data transfers.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. When migrating massive volumes (like Petabytes), network bandwidth limitations cause long delays. Shipping physical encrypted hard drives (e.g. AWS Snowball) is faster and cheaper.",
+      "ar": "صحيح. لنقل كميات ضخمة جداً من البيانات (بالبيتابايت)، غالباً يكون شحن أقراص صلبة فيزيائياً (زي AWS Snowball) أسرع وأوفر من رفعها بالكامل عبر الإنترنت."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 168,
+    "q": "Sharing I/O efficiently in cloud computing is not easy, and this can cause performance \nunpredictability.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. Multiple virtual machines (VMs) running on the same host share the physical I/O controllers and network interfaces, which can lead to contention and resource bottlenecks.",
+      "ar": "صحيح. مشاركة عتاد الإدخال والإخراج (I/O) والمعالجة بين آلات افتراضية متعددة على نفس الخادم الفيزيائي يمثل تحدياً كبيراً وقد يؤدي لبطء استجابة السيرفر."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 169,
+    "q": "Scalable Storage: It requires high up-front cost and fixed storage capacity.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Scalable storage aims for no up-front cost, short-term usage, and on-demand capacity.",
+    "page": 19,
+    "exp": {
+      "en": "This is incorrect. Scalable cloud storage is characterized by utility pricing (pay-for-what-you-use), zero up-front investment, dynamic on-demand capacity, and short-term elasticity.",
+      "ar": "لا، هذا غلط. التخزين المرن في السحابة يتميز بعدم وجود تكلفة مسبقة (no upfront cost) والقدرة على التوسع التلقائي حسب الاستخدام، وليس سعات ثابتة بأسعار غالية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 170,
+    "q": "Bugs in Large-Scale Distributed Systems are not easily reproduced in smaller configurations, so \ndebugging often occurs at datacenters.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. Race conditions, network jitter, and scale-related issues in massive clusters are very hard to replicate in local environments, making live datacenter telemetry and debugging necessary.",
+      "ar": "صحيح. من الصعب جداً تتبع وإعادة إنتاج الأخطاء (Bugs) في الأنظمة الموزعة الضخمة على أجهزة صغيرة، لذلك يتم فحصها ومراقبتها في بيئة مراكز البيانات الفعلية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 171,
+    "q": "A customer’s bad behavior can affect the reputation of the cloud, so reputation-guarding services are \nneeded.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. If a tenant uses a shared IP range to send spam or launch attacks, the IP addresses get blacklisted, affecting all other innocent tenants sharing those IPs. Providers use reputation-guarding services to detect and block this.",
+      "ar": "صحيح. السلوك السيء لأحد المشتركين (مثل إرسال سبام) من عنوان IP مشترك قد يضر بسمعة النطاق بالكامل ويؤثر سلباً على المشتركين الآخرين على نفس الشبكة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 172,
+    "q": "Availability of Service: Cloud elasticity can help defend against DDoS attacks by scaling resources \nduring sudden traffic increases.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. Cloud elasticity allows systems to automatically spin up additional virtual servers to absorb the traffic spike during a DDoS attack, helping to maintain service availability.",
+      "ar": "صحيح. مرونة السحابة تساعد في مواجهة هجمات حجب الخدمة (DDoS) عن طريق فتح خوادم إضافية تلقائياً لاستيعاب حركة المرور والطلبات الضخمة دون توقف."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 173,
+    "q": "Service providers may access cloud data, so users can encrypt data before storing it in the cloud to \nprevent unauthorized reading.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 19,
+    "exp": {
+      "en": "True. Encrypting data locally before uploading it (client-side encryption) ensures that even if cloud administrators or hackers access the storage, they cannot read the plain text.",
+      "ar": "صحيح. أفضل طريقة لحماية خصوصية البيانات من موظفي مزود الخدمة أو المخترقين هي تشفير البيانات محلياً قبل رفعها للسحابة لضمان بقائها سرية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 174,
+    "q": "Physical control on the computers in public cloud is more secure than in private cloud.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Physical control on the computers in private cloud is more secure than in public cloud.",
+    "page": 19,
+    "exp": {
+      "en": "This is incorrect. Private clouds are hosted on-premises, giving the client total physical ownership and security control over the hardware. In a public cloud, hardware is managed by a third party with no physical client access.",
+      "ar": "لا، هذا غلط. السحابة الخاصة المحلية (Private Cloud) هي التي تعطي تحكماً فيزيائياً وأماناً موضعياً أعلى لأن الأجهزة تقع في مقرك وتحت إشرافك المباشر."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 175,
+    "q": "NIST Guidelines: Continuous monitoring helps maintain awareness of security controls, \nvulnerabilities, and threats.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 20,
+    "exp": {
+      "en": "True. The NIST security framework recommends continuous real-time monitoring of cloud controls, system configurations, and incoming traffic to quickly discover and mitigate security vulnerabilities.",
+      "ar": "صحيح. توصي إرشادات NIST للمعلومات الأمنية بضرورة المراقبة المستمرة للنظام لرصد أي ثغرات أو تهديدات وحماية البيانات في الوقت الحقيقي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 176,
+    "q": "GDPR is a regulation in European Union law on data protection and privacy, and its primary aim is to \ngive individuals control over their personal data.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 20,
+    "exp": {
+      "en": "True. GDPR (General Data Protection Regulation) is a strict framework that empowers EU citizens with rights regarding their personal data, forcing organizations to be transparent and obtain explicit consent.",
+      "ar": "صحيح. لائحة GDPR هي قانون حماية البيانات والخصوصية الصارم في الاتحاد الأوروبي، وهدفه الأساسي منح الأفراد التحكم الكامل ببياناتهم الشخصية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 177,
+    "q": "CDN providers may use user analytics and tracking data for behavioral targeting, which can cause \nprivacy intrusion.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 20,
+    "exp": {
+      "en": "True. While CDNs optimize content delivery, they process huge amounts of client request metadata, which can be compiled and used for tracking or behavioral analysis, raising privacy concerns.",
+      "ar": "صحيح. قد يقوم مزودو شبكات CDN بجمع وتحليل بيانات وتتبع المستخدمين لتحسين الإعلانات المستهدفة، وهو ما يثير مخاوف الخصوصية."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 178,
+    "q": "Same-Origin Policy permits scripts if pages have the same origin: URI scheme, host name, and port \nnumber.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 20,
+    "exp": {
+      "en": "True. The Same-Origin Policy (SOP) is a critical browser security rule that only allows scripts on Web Page A to access data in Web Page B if they share the exact same protocol, domain, and port.",
+      "ar": "صحيح. سياسة الأصل المشترك (Same-Origin Policy) هي آلية أمان بالمتصفح تمنع كود خبيث من سرقة بيانات موقع آخر، وتشترط نفس البروتوكول والمضيف والمنفذ."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 179,
+    "q": "CDN Security and Privacy: JavaScript served by CDN can be targeted for malicious code injection, \nand Subresource Integrity helps verify the content using a hash reference.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 20,
+    "exp": {
+      "en": "True. Serving scripts from third-party CDNs exposes sites to code injection if the CDN is compromised. Subresource Integrity (SRI) uses cryptographic hashes (e.g. SHA-384) in the script tag to verify content integrity.",
+      "ar": "صحيح. استدعاء ملفات جافا سكريبت من خوادم CDN خارجية قد يعرض موقعك للاخترق لو استبدل الملف بكود خبيث، واستخدام SRI يضمن مطابقة كود الهاش للتأكد."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 180,
+    "q": "Edge Computing: Computation and data storage are placed far from the user location to increase \nresponse time and bandwidth usage.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Edge Computing places computation and data storage closer to the user to improve response time and save bandwidth.",
+    "page": 20,
+    "exp": {
+      "en": "This is incorrect. Edge Computing is designed to do the opposite: it places data processing and storage closer to the user's location, which decreases response time (latency) and reduces network bandwidth consumption.",
+      "ar": "لا، هذا غلط. حوسبة الحافة (Edge Computing) تضع المعالجة والتخزين قريباً جداً من المستخدم (closer) لتسريع زمن الاستجابة وتوفير استهلاك الباندودث."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 181,
+    "q": "Ubiquitous Computing: Computing can appear anytime and everywhere, using devices such as \ntabs, pads, and boards.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 20,
+    "exp": {
+      "en": "True. Ubiquitous Computing (coined by Mark Weiser) is the concept where computing power is woven into the fabric of daily life, appearing in everyday smart objects so it is available anywhere.",
+      "ar": "صحيح. الحوسبة الشاملة أو في كل مكان (Ubiquitous Computing) تعني دمج المعالجة والذكاء البرمجي في الأشياء المحيطة بنا لتكون متاحة دائماً."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 182,
+    "q": "Cloudlet: A large-scale central cloud datacenter located far from users at the core of the Internet.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Cloudlet: A mobility-enhanced small-scale cloud datacenter located at the edge of the Internet.",
+    "page": 20,
+    "exp": {
+      "en": "This is incorrect. A Cloudlet is a small-scale, decentralized datacenter positioned at the edge of the internet (closer to users) to provide rapid offloading of computational tasks for nearby mobile devices.",
+      "ar": "لا، هذا غلط. السحابة المصغرة (Cloudlet) هي مركز بيانات سحابي صغير الحجم وقريب من المستخدم على الحافة (edge) لمساعدة الأجهزة المحمولة القريبة، وليس مركزاً عملاقاً في عمق الإنترنت."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 183,
+    "q": "Fog Computing is defined by the exclusion of cloud, whereas Edge Computing works with the cloud.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "b",
+    "raw_notes": "Fog Computing works with the cloud, whereas edge computing is defined by the exclusion of cloud.",
+    "page": 20,
+    "exp": {
+      "en": "This is incorrect. The relationship is reversed: Fog Computing works in conjunction with the cloud to distribute processing, whereas Edge Computing emphasizes localized processing at the device level, excluding the cloud.",
+      "ar": "لا، هذا غلط. العكس هو الصحيح؛ الحوسبة الضبابية (Fog) تعمل بالتكامل والربط مع السحابة، بينما حوسبة الحافة (Edge) تركز على المعالجة المحلية المستقلة عن السحابة."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 184,
+    "q": "IoT: A network of physical objects embedded with sensors, software, and technologies to exchange \ndata over the Internet.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 21,
+    "exp": {
+      "en": "True. The Internet of Things (IoT) is a global network of physical devices (appliances, vehicles, industrial equipment) containing sensors and software that enable them to connect and communicate data.",
+      "ar": "صحيح. إنترنت الأشياء (IoT) يمثل شبكة الأجهزة والقطع الفيزيائية المتصلة بالإنترنت والتي تتبادل البيانات وتتفاعل معاً عن طريق الحساسات."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 185,
+    "q": "Virtual Event: An online event where people interact in a virtual environment instead of a physical \nmeeting.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 21,
+    "exp": {
+      "en": "True. A Virtual Event is an interactive online gathering (like a webinar or virtual conference) where participants meet and communicate inside a simulated digital environment rather than meeting in person.",
+      "ar": "صحيح. الفعالية الافتراضية (Virtual Event) هي مؤتمر أو حدث يقام بالكامل عبر الإنترنت ويتيح للجمهور التفاعل واللقاء عن بعد دون حضور شخصي."
+    },
+    "hasImage": false
+  },
+  {
+    "n": 186,
+    "q": "Hybrid Event: Combines a physical in-person event with a virtual online component.",
+    "opts": [
+      "True",
+      "False"
+    ],
+    "ans": "a",
+    "raw_notes": "",
+    "page": 21,
+    "exp": {
+      "en": "True. A Hybrid Event integrates a live, physical event at a venue with an online, interactive component (webcast or virtual space) to allow both in-person and remote audiences to participate.",
+      "ar": "صحيح. الحدث الهجين (Hybrid Event) يدمج الحضور الشخصي في القاعة مع الحضور الافتراضي عبر الإنترنت للسماح لأكبر عدد من الأشخاص بالمشاركة والتفاعل."
+    },
+    "hasImage": false
+  }
+];
+
+    const lectures = [
+      { name: "1. Cloud Computing Introduction", file: "1 Cloud Computing Introduction - Tagged.pdf", video: "1.CS_4815___الحوسبة_السحابية.mp4", icon: "school", color: "from-teal-500 to-cyan-600" },
+      { name: "2. Cloud Services Architecture", file: "2. Cloud Services Architecture.pdf", video: "2.تشريح_السحابة_ومكوناتها.mp4", icon: "menu_book", color: "from-blue-500 to-indigo-600" },
+      { name: "3. Cloud Service Life-cycle Management", file: "3. Cloud Service Life-cycle Management.pdf", video: "3.رحلة_الخدمة_السحابية.mp4", icon: "science", color: "from-purple-500 to-pink-600" },
+      { name: "4. Cloud Virtualization and Storage", file: "4. Cloud Virtualization and Storage.pdf", video: "4.تبسيط_السحابة__نظام_بيئي.mp4", icon: "calculate", color: "from-orange-500 to-red-600" },
+      { name: "5. Cloud Platforms and Frameworks", file: "5. Cloud Platforms and Frameworks.pdf", video: "5.فك_رموز_السحابة_والحاويات.mp4", icon: "analytics", color: "from-indigo-500 to-violet-600" },
+      { name: "6. Distributed Computing Systems", file: "6. Distributed Computing Systems.pdf", video: "6.تسونامي_البيانات_الضخمة.mp4", icon: "lan", color: "from-blue-500 to-cyan-600" },
+      { name: "7. Big Data Analytics", file: "7. Big Data Analytics.pdf", video: "7.تسونامي_البيانات_الضخمة.mp4", icon: "monitoring", color: "from-rose-500 to-pink-600" },
+      { name: "8. Cloud Regulatory, Privacy, and Security", file: "8. Cloud Regulatory, Privacy, and Security.pdf", video: "8.أمن_وخصوصية_السحابة.mp4", icon: "security", color: "from-emerald-500 to-teal-600" },
+      { name: "9. Ubiquitous Computing", file: "9. Ubiquitous Computing.pdf", video: "9.مستقبل_الحوسبة_الشاملة.mp4", icon: "cell_tower", color: "from-amber-500 to-orange-600" }
+    ];
+
+    let currentPdf = '';
+    let currentLang = localStorage.getItem('explanation-lang') || 'en';
+    const letters = ['a','b','c','d'];
+
+    function buildQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+      
+      document.getElementById('total-count').textContent = quizData.length;
+      
+      if (quizData.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-20 opacity-50">
+            <span class="material-symbols-outlined text-6xl mb-4">edit_note</span>
+            <p class="font-headline text-xl">No questions added yet</p>
+            <p class="text-sm mt-2">Add questions to the quizData array in the code</p>
+          </div>
+        `;
+        return;
+      }
+      
+      quizData.forEach((q, idx) => {
+        const num = String(q.n).padStart(2,'0');
+        const delay = Math.min(idx * 20, 500);
+        
+        const hasImage = q.hasImage || false;
+        const imageHtml = hasImage ? `
+          <div class="q-image-container">
+            <img src="q${q.n}.png" alt="Diagram for question ${q.n}" class="q-image" onerror="this.src='q${q.n}.jpg'; this.onerror=function(){this.style.display='none';}">
+            <div class="q-image-caption">
+              <span class="material-symbols-outlined text-sm align-middle mr-1">image</span>
+              Figure ${q.n}
+            </div>
+          </div>
+        ` : '';
+        
+        let optsHtml = q.opts.map((opt, oi) => `<label class="option-label relative flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-2xl border border-outline-variant/20 dark:border-db cursor-pointer hover:bg-surface-container-low dark:hover:bg-scl transition-all">
+          <input type="radio" name="q${q.n}" value="${letters[oi]}" class="w-4 h-4 md:w-5 md:h-5 text-primary focus:ring-primary border-outline-variant bg-transparent accent-[#3D8B8B]">
+          <span class="font-body text-sm md:text-base text-on-surface-variant dark:text-sv font-medium">${letters[oi]}) ${opt}</span>
+        </label>`).join('');
+        
+        container.innerHTML += `<article class="q-card bg-white dark:bg-card rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-8 editorial-shadow border border-surface-container-high dark:border-db animate-fade-up" style="animation-delay:${delay}ms" data-qnum="${q.n}">
+          <div class="flex flex-col gap-4 md:gap-6">
+            <div class="flex justify-between items-start">
+              <span class="font-label text-[10px] md:text-xs font-bold text-secondary dark:text-s uppercase tracking-widest bg-secondary-fixed/30 dark:bg-amber-900/20 px-3 py-1 rounded-full">Question ${num}</span>
+            </div>
+            <h3 class="font-headline text-base md:text-xl font-bold text-on-surface dark:text-white leading-snug">${q.q}</h3>
+            ${imageHtml}
+            <div class="grid grid-cols-1 gap-3 md:gap-4">${optsHtml}</div>
+            <div class="flex flex-col gap-3">
+              <div class="answer-feedback hidden" id="feedback-${q.n}"></div>
+              <div class="reveal-content" id="reveal-${q.n}">
+                <div class="exp-box exp-visible">
+                  <div class="lang-toggle">
+                    <button class="lang-btn ${currentLang === 'en' ? 'active' : ''}" onclick="toggleExplanationLang(${q.n}, 'en')">EN</button>
+                    <button class="lang-btn ${currentLang === 'ar' ? 'active' : ''}" onclick="toggleExplanationLang(${q.n}, 'ar')">عربي</button>
+                  </div>
+                  <div class="items-start gap-3 flex mt-2">
+                    <span class="material-symbols-outlined text-secondary dark:text-s text-xl flex-shrink-0 mt-1">info</span>
+                    <div class="text-sm md:text-base leading-relaxed text-on-surface-variant dark:text-sv w-full">
+                      <p class="font-bold mb-2 text-secondary dark:text-s">Explanation:</p>
+                      <div class="exp-text ${currentLang === 'en' ? 'active' : ''}" data-lang="en" id="exp-${q.n}-en">${q.exp.en}</div>
+                      <div class="exp-text ${currentLang === 'ar' ? 'active' : ''}" data-lang="ar" id="exp-${q.n}-ar" dir="rtl">${q.exp.ar}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>`;
+      });
+      
+      document.querySelectorAll('input[type="radio"]').forEach(radio => radio.addEventListener('change', handleAnswer));
+      
+      // Render KaTeX math after building questions
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(document.getElementById('questions-container'), {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function toggleExplanationLang(qNum, lang) {
+      currentLang = lang;
+      localStorage.setItem('explanation-lang', lang);
+      
+      const card = document.querySelector(`[data-qnum="${qNum}"]`);
+      card.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', 
+          (lang === 'en' && btn.textContent === 'EN') || 
+          (lang === 'ar' && btn.textContent === 'عربي')
+        );
+      });
+      
+      const enText = document.getElementById(`exp-${qNum}-en`);
+      const arText = document.getElementById(`exp-${qNum}-ar`);
+      
+      if(lang === 'en') {
+        arText.classList.remove('active');
+        setTimeout(() => enText.classList.add('active'), 50);
+      } else {
+        enText.classList.remove('active');
+        setTimeout(() => arText.classList.add('active'), 50);
+      }
+    }
+
+    function handleAnswer(e) {
+      const qNum = parseInt(e.target.name.substring(1));
+      const selected = e.target.value;
+      const qData = quizData.find(q => q.n === qNum);
+      const feedback = document.getElementById(`feedback-${qNum}`);
+      const card = e.target.closest('.q-card');
+      card.querySelectorAll('.option-label').forEach(l => l.classList.remove('correct-answer','incorrect-answer'));
+      const isCorrect = selected === qData.ans;
+      const selectedLabel = e.target.closest('.option-label');
+      if(isCorrect) {
+        selectedLabel.classList.add('correct-answer');
+        feedback.className = 'answer-feedback answer-correct animate-fade-up';
+        feedback.innerHTML = `<div class="flex flex-col items-start gap-2"><span class="font-bold text-primary dark:text-p">✅ Correct!</span><button onclick="revealPart(${qNum})" class="btn-reveal btn-reveal-exp" id="btn-reveal-${qNum}"><span class="material-symbols-outlined text-sm">lightbulb</span>Show Explanation</button></div>`;
+      } else {
+        selectedLabel.classList.add('incorrect-answer');
+        feedback.className = 'answer-feedback answer-incorrect animate-fade-up';
+        feedback.innerHTML = `<div class="flex flex-col items-start gap-2"><span class="font-bold text-error">❌ Incorrect</span><button onclick="revealPart(${qNum}, true)" class="btn-reveal btn-reveal-correct" id="btn-reveal-${qNum}"><span class="material-symbols-outlined text-sm">visibility</span>Show Correct Choice</button></div>`;
+      }
+      feedback.classList.remove('hidden');
+      document.getElementById(`reveal-${qNum}`).style.display = 'none';
+      updateProgress();
+    }
+
+    function revealPart(n, showAnswer = false) {
+      const revealBox = document.getElementById(`reveal-${n}`);
+      const btn = document.getElementById(`btn-reveal-${n}`);
+      const qData = quizData.find(q => q.n === n);
+      if(revealBox) revealBox.style.display = 'block';
+      if(btn) btn.style.display = 'none';
+      if(showAnswer) {
+        const feedback = document.getElementById(`feedback-${n}`);
+        const card = feedback.closest('.q-card');
+        const correctIdx = letters.indexOf(qData.ans);
+        card.querySelectorAll('.option-label')[correctIdx].classList.add('correct-answer');
+        feedback.querySelector('span').innerHTML = `❌ Incorrect — Correct answer: <strong class="text-primary dark:text-p">${qData.ans.toUpperCase()}</strong>`;
+      }
+      // Re-render math in explanation if needed
+      if (typeof renderMathInElement !== 'undefined') {
+        renderMathInElement(revealBox, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function showAllAnswers() { 
+      quizData.forEach(q => { 
+        const card = document.querySelector(`[data-qnum="${q.n}"]`); 
+        if(!card) return; 
+        const correctIdx = letters.indexOf(q.ans); 
+        const labels = card.querySelectorAll('.option-label'); 
+        labels.forEach(l=>l.classList.remove('correct-answer','incorrect-answer')); 
+        labels[correctIdx].classList.add('correct-answer'); 
+        labels[correctIdx].querySelector('input').checked = true; 
+        const feedback = document.getElementById(`feedback-${q.n}`); 
+        feedback.className='answer-feedback answer-correct animate-fade-up'; 
+        feedback.innerHTML=`<span class="font-bold text-primary dark:text-p">✅ Correct Answer: ${q.ans.toUpperCase()}</span>`; 
+        feedback.classList.remove('hidden'); 
+        revealPart(q.n); 
+      }); 
+      updateProgress(); 
+    }
+    
+    function hideAllAnswers() { 
+      quizData.forEach(q => { 
+        const card = document.querySelector(`[data-qnum="${q.n}"]`); 
+        if(!card) return; 
+        card.querySelectorAll('.option-label').forEach(l=>l.classList.remove('correct-answer','incorrect-answer')); 
+        card.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false); 
+        const fb = document.getElementById(`feedback-${q.n}`); 
+        fb.classList.add('hidden'); 
+        fb.innerHTML=''; 
+        const rev = document.getElementById(`reveal-${q.n}`); 
+        if(rev) rev.style.display='none'; 
+      }); 
+      updateProgress(); 
+    }
+    
+    function resetQuiz() { 
+      document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false); 
+      hideAllAnswers(); 
+      updateProgress(); 
+      window.scrollTo({top:0,behavior:'smooth'}); 
+    }
+    
+    function updateProgress() { 
+      const answered = document.querySelectorAll('input[type="radio"]:checked').length; 
+      document.getElementById('answered-count').textContent = answered; 
+      const total = quizData.length || 1;
+      document.getElementById('progress-bar').style.width = `${(answered/total)*100}%`; 
+    }
+
+    let activeSlideIdx = 0;
+    function buildSlides() {
+      const list = document.getElementById('slides-list');
+      list.innerHTML = lectures.map((l,i) => {
+        const isActive = i === activeSlideIdx;
+        return `<div class="slide-item flex flex-col md:flex-row items-stretch md:items-center gap-4 p-4 rounded-[1.5rem] border ${isActive ? 'active-slide border-primary/30 dark:border-primary-fixed-dim/30 bg-primary/5 dark:bg-primary-fixed-dim/5' : 'border-outline-variant/20 dark:border-db'} bg-white dark:bg-card cursor-pointer animate-fade-up transition-all hover:border-primary/20" data-slide-idx="${i}" onclick="selectSlide(${i})">
+          <!-- Slide Preview Thumbnail -->
+          <div class="flex-shrink-0 w-full md:w-32 h-24 rounded-2xl overflow-hidden bg-slate-100 dark:bg-scl border border-outline-variant/10 dark:border-db relative shadow-sm group">
+            <video class="w-full h-full object-cover" preload="metadata" muted>
+              <source src="${l.video}#t=5" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+              <span class="material-symbols-outlined text-white text-3xl">play_arrow</span>
+            </div>
+            <!-- Lecture Badge -->
+            <div class="absolute bottom-2 right-2 bg-black/75 text-[#87d3d3] text-[10px] px-2 py-0.5 rounded-lg font-bold tracking-wider uppercase">
+              Lec ${i+1}
+            </div>
+          </div>
+          
+          <div class="flex-1 min-w-0 py-1 flex flex-col justify-center">
+            <h3 class="font-headline font-bold text-on-surface dark:text-white text-base md:text-lg truncate">${l.name}</h3>
+            <p class="text-on-surface-variant dark:text-sv text-xs mt-1 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-xs">picture_as_pdf</span> PDF Slide
+              <span class="text-outline-variant/40">•</span>
+              <span class="material-symbols-outlined text-xs">play_circle</span> Video Explanation
+            </p>
+          </div>
+          
+          <div class="flex items-center gap-2 flex-shrink-0 mt-3 md:mt-0">
+            <button onclick="event.stopPropagation();selectSlide(${i});switchTab('pdf')" class="flex-1 md:flex-none px-4 py-2 ${isActive ? 'bg-primary dark:bg-primary-fixed-dim text-white dark:text-on-primary-fixed' : 'bg-surface-container-low dark:bg-scl text-on-surface-variant dark:text-sv hover:bg-surface-container'} rounded-xl text-xs font-semibold btn-press transition-all flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">visibility</span>View Slide
+            </button>
+            <button onclick="event.stopPropagation();selectSlide(${i});switchTab('video')" class="flex-1 md:flex-none px-4 py-2 bg-surface-container-low dark:bg-scl text-on-surface-variant dark:text-sv rounded-xl text-xs font-semibold btn-press hover:bg-surface-container dark:hover:bg-sc transition-all flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">play_circle</span>Watch Video
+            </button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    
+    function selectSlide(idx) { 
+      activeSlideIdx = idx; 
+      const l = lectures[idx]; 
+      currentPdf = l.file; 
+      buildSlides(); 
+      
+      document.getElementById('pdf-title').textContent = l.name; 
+      document.getElementById('pdf-frame').src = l.file; 
+      
+      const videoEl = document.getElementById('slide-video');
+      if (videoEl) {
+        videoEl.src = l.video;
+        videoEl.load();
+      }
+      
+      const viewerWrap = document.getElementById('pdf-viewer-wrap');
+      viewerWrap.classList.remove('hidden'); 
+      viewerWrap.scrollIntoView({behavior:'smooth',block:'start'}); 
+    }
+    
+    function switchTab(tab) {
+      const btnPdf = document.getElementById('tab-btn-pdf');
+      const btnVideo = document.getElementById('tab-btn-video');
+      const panelPdf = document.getElementById('panel-pdf');
+      const panelVideo = document.getElementById('panel-video');
+      
+      const activeClasses = ['bg-primary', 'dark:bg-primary-fixed-dim', 'text-white', 'dark:text-on-primary-fixed', 'shadow-md'];
+      const inactiveClasses = ['text-on-surface-variant', 'dark:text-sv', 'hover:bg-surface-container', 'dark:hover:bg-sc'];
+      
+      const videoEl = document.getElementById('slide-video');
+
+      if (tab === 'pdf') {
+        if (videoEl) videoEl.pause();
+        panelPdf.classList.remove('hidden');
+        panelVideo.classList.add('hidden');
+        
+        btnPdf.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 " + activeClasses.join(' ');
+        btnVideo.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 " + inactiveClasses.join(' ');
+      } else {
+        panelPdf.classList.add('hidden');
+        panelVideo.classList.remove('hidden');
+        
+        btnVideo.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 " + activeClasses.join(' ');
+        btnPdf.className = "px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 " + inactiveClasses.join(' ');
+      }
+    }
+    
+    function openPdfNewTab(idx) { window.open(lectures[idx].file, '_blank'); }
+    
+    function downloadCurrentPdf() { 
+      if(!currentPdf) return; 
+      const a = document.createElement('a'); 
+      a.href = currentPdf; 
+      a.download = currentPdf; 
+      a.click(); 
+    }
+    
+    function showSection(section) { 
+      const quizDiv=document.getElementById('quiz-section'), slidesDiv=document.getElementById('slides-section'); 
+      const navQuiz=document.getElementById('nav-quiz'), navSlides=document.getElementById('nav-slides'); 
+      const active=['bg-white','dark:bg-card','shadow-sm','rounded-full','text-primary','dark:text-p','font-bold']; 
+      const inactive=['text-on-surface-variant','dark:text-sv','font-medium']; 
+      if(section==='quiz') { 
+        quizDiv.classList.remove('hidden'); 
+        slidesDiv.classList.add('hidden'); 
+        navQuiz.classList.add(...active); 
+        navQuiz.classList.remove(...inactive); 
+        navSlides.classList.remove(...active); 
+        navSlides.classList.add(...inactive); 
+      } else { 
+        quizDiv.classList.add('hidden'); 
+        slidesDiv.classList.remove('hidden'); 
+        navSlides.classList.add(...active); 
+        navSlides.classList.remove(...inactive); 
+        navQuiz.classList.remove(...active); 
+        navQuiz.classList.add(...inactive); 
+      } 
+      window.scrollTo({top:0,behavior:'smooth'}); 
+    }
+    
+    function toggleTheme() { 
+      const html=document.documentElement; 
+      const isDark=html.classList.contains('dark'); 
+      html.classList.toggle('dark'); 
+      const icon=isDark ? 'dark_mode' : 'light_mode'; 
+      document.querySelectorAll('#themeToggleMobile .material-symbols-outlined, #themeToggleDesktop .material-symbols-outlined').forEach(el=>el.textContent=icon); 
+      localStorage.setItem('cg-theme',isDark?'light':'dark'); 
+    }
+    
+    document.addEventListener('DOMContentLoaded',()=> { 
+      const saved=localStorage.getItem('cg-theme'); 
+      if(saved==='dark'){ 
+        document.documentElement.classList.add('dark'); 
+        document.querySelectorAll('#themeToggleMobile .material-symbols-outlined, #themeToggleDesktop .material-symbols-outlined').forEach(el=>el.textContent='light_mode'); 
+      } 
+      buildQuestions(); 
+      buildSlides(); 
+      if(window.innerWidth>=768 && lectures.length > 0){ 
+        selectSlide(0);
+        switchTab('pdf');
+      } else if (lectures.length > 0) {
+        const l = lectures[0];
+        document.getElementById('pdf-title').textContent = l.name; 
+        document.getElementById('pdf-frame').src = l.file; 
+        const videoEl = document.getElementById('slide-video');
+        if (videoEl) videoEl.src = l.video;
+      }
+    });
+  </script>
+</body>
+</html>
